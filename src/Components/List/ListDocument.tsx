@@ -24,6 +24,15 @@ const ListDocument:React.FC<ListDocumentProps>=({checkAll,listData})=> {
     const clickDocumentFreePage=()=>{
         navigate("/document/free/10");
     }
+    const clickDocumentPayPage=()=>{
+        navigate("/document/pay/10");
+    }
+    const clickCourse=()=>{
+        navigate("/course/offline/10");
+    }
+    const clickExam=()=>{
+        navigate("/exam/:id");
+    }
     useEffect(()=>{
         if (!checkAll) {
             setListDocument(listDocumentTmp.filter((item) => item.percent !== undefined));
@@ -37,13 +46,13 @@ const ListDocument:React.FC<ListDocumentProps>=({checkAll,listData})=> {
             {
                 listDocument.map((item,index)=>(
                     item.percent && item.type!=="exam"? 
-                    <LessonCard key={index} name={item.name} description={item.description} buttonContent={item.buttonContent} percent={item.percent} clickDetail={clickDocumentFreePage}/>:
+                    <LessonCard key={index} name={item.name} description={item.description} buttonContent={item.buttonContent} percent={item.percent}/>:
                     item.type==="course" ?
-                    <LessonCard key={index} name={item.name} description={item.description} percent={item.percent} price={item.price} type={true}/>:
+                    <LessonCard key={index} name={item.name} description={item.description} percent={item.percent} price={item.price} type={true} clickDetail={clickCourse}/>:
                     item.type==="documentpay" ?
-                    <LessonCard key={index} name={item.name} description={item.description} percent={item.percent} price={item.price} type={false}/>:
+                    <LessonCard key={index} name={item.name} description={item.description} percent={item.percent} price={item.price} type={false} clickDetail={clickDocumentPayPage}/>:
                     item.type==="exam" ?
-                    <LessonCard key={index} name={item.name} description={item.description} buttonContent={item.buttonContent} state={item.state}/>:
+                    <LessonCard key={index} name={item.name} description={item.description} buttonContent={item.buttonContent} state={item.state} clickDetail={clickExam}/>:
                     <LessonCard key={index} name={item.name} description={item.description} buttonContent={item.buttonContent} percent={item.percent} clickDetail={clickDocumentFreePage}/>
                 ))       
             }
