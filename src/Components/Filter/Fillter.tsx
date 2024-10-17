@@ -113,7 +113,7 @@ const Fillter: React.FC<FillterProps> = ({
 
   return (
     <div className='p-4'>
-      <div className='flex flex-col lg:flex-col xl:flex-row gap-3 font-bold'>
+      <div className='flex flex-col md:flex-col lg:flex-col xl:flex-row gap-3 font-bold'>
         <Button
           variant={checkAll === true ? 'primary' : 'secondary'}
           onClick={clickCheckAll}
