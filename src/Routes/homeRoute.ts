@@ -7,6 +7,7 @@ import LessonNotPurchased from "../Page/ClientPage/DocumentPayPage/LessonNotPurc
 import ExamsDetail from "../Page/ClientPage/ExamsPage/ExamsDetail";
 import ExamsPage from "../Page/ClientPage/ExamsPage/ExamsPage";
 import HomePage from "../Page/ClientPage/HomePage/HomePage";
+import ProfilePage from "../Page/ClientPage/ProfilePage/ProfilePage";
 import { RouterLink } from "../Util/RouterLink";
 const homeRoute = [
     {
@@ -44,6 +45,10 @@ const homeRoute = [
     {
         path: RouterLink.DetailExamPage,
         element: ExamsDetail
+    },
+    {
+        path: RouterLink.Profile,
+        element: ProfilePage
     }
 ]
 

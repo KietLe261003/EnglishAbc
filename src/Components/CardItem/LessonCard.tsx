@@ -22,8 +22,7 @@ const LessonCard: React.FC<LessonCardProps> = ({
   percent,
   clickDetail
 }) => {
-  let classState =
-    "absolute top-[110px] right-0 rounded-bl-full rounded-tl-full px-6 py-2 sm:top-[70px] sm:px-3 sm:py-1  md:top-[58px] md:px-3 md:py-1 lg:top-[77px] lg:px-4 lg:py-2 xl:top-[110px] xl:px-5 xl:py-2 2xl:top-[110px] 2xl:px-6 2xl:py-2  ";
+  let classState = "absolute top-[110px] right-0 rounded-bl-full rounded-tl-full px-6 py-2 sm:top-[70px] sm:px-3 sm:py-1  md:top-[58px] md:px-3 md:py-1 lg:top-[77px] lg:px-4 lg:py-2 xl:top-[110px] xl:px-5 xl:py-2 2xl:top-[110px] 2xl:px-6 2xl:py-2  ";
   switch (state) {
     case "Pass":
       classState += "bg-[#00A751]";
