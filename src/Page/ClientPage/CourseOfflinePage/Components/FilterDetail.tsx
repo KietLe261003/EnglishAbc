@@ -23,7 +23,7 @@ const FilterDetail:React.FC<FillterDetailProps> = ({currentContent=1,setCurrentC
         }
     ]
     return (
-      <div className=" flex justify-between">
+      <div className=" flex justify-between xs:flex-col xs:gap-3 xs:items-center lg:flex-row">
         {filterContent.map((item, index) => (
           <ButtonDetail
             key={index}

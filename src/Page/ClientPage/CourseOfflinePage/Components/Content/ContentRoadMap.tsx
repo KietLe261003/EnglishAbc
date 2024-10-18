@@ -5,17 +5,17 @@ function ContentRoadMap() {
     {
       step: 1,
       content: 'Mở đầu khóa học',
-      descript: 'Chào hỏi múa quạt các kiểu',
+      descript: 'Mở đầu khóa học',
     },
     {
       step: 2,
       content: 'Mở đầu khóa học',
-      descript: 'Chào hỏi múa quạt các kiểu',
+      descript: 'Nội dung khóa học',
     },
     {
       step: 3,
       content: 'Mở đầu khóa học',
-      descript: 'Chào hỏi múa quạt các kiểu',
+      descript: 'Cam kết sau khóa học',
     },
   ]
   return (

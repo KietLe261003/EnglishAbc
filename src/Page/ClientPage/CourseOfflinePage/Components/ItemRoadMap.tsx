@@ -30,7 +30,7 @@ const ItemRoadMap: React.FC<ItemRoadMapProp> = ({
     <>
       <li className='border-l-2 border-slate-300 w-full'>
         <div className='md:flex flex-start relative'>
-          <div className={`absolute top-4 bg-[${colorOpen}] w-7 h-7 flex items-center justify-center rounded-full -ml-3.5`}></div>
+          <div className={`absolute top-4 bg-[${colorOpen}] w-7 h-7 md:flex items-center justify-center rounded-full -ml-3.5 xs:hidden`}></div>
           <div className='w-7 h-7'></div>
           <div className=' flex flex-col w-full'>
             <Accordion defaultIndex={[0]} allowMultiple marginBottom={'48px'}>
