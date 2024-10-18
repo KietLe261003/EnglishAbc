@@ -11,3 +11,18 @@ export interface User {
     desciption?: string,
     role: string
 }
+interface Role {
+    roleId: number;
+    name: string;
+}
+  
+export interface AuthResponse {
+    token: string;
+    authenticated: boolean;
+    role: Role;
+    userId: number;
+}
+export interface responseLogin{
+    code: number,
+    result: AuthResponse,
+}

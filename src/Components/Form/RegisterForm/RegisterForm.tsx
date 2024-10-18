@@ -35,7 +35,7 @@ const RegisterForm:React.FC<RegisterFormProps> = ({setInfoUser}) => {
     if(responuser.code===0)
     {
       setInfoUser(newUser);
-      dispath(setOpenModal(3));
+      dispath(setOpenModal(1));
     }
     else 
       alert("Đăng ký thất bại");
@@ -210,7 +210,7 @@ const RegisterForm:React.FC<RegisterFormProps> = ({setInfoUser}) => {
                     onClick={Register}  
                   >
                     <div className='flex justify-center items-center'>
-                      <div className='mt-1'>Gửi yêu cầu</div>
+                      <div className='mt-1'>Đăng ký</div>
                       <IconArrowRight/>
                     </div>
                   </Button>

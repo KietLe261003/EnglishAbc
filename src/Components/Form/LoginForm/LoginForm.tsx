@@ -3,11 +3,17 @@ import { IconWindowClose } from "../../../Common/Icon/Icon";
 import CardTitleComponent from "../CardTitleComponent";
 import { useAppDispatch, useAppSelector } from "../../../Hooks/Store";
 import { setCloseModal, setOpenModal } from "../../../Redux/Slice/HomeSlice";
+import { responseLogin } from "../../../Type/User/User";
+import { userServices } from "../../../Services/UserService";
+import { useAuth } from "../../../Common/Context/AuthContext";
 
 const LoginForm:React.FC = () => {
+  const {login}=useAuth();
   const {openModal}=useAppSelector(state=>state.counter);
   const dispath = useAppDispatch();
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const [phoneNumber,setPhoneNumber]=useState<string>("");
+  const [password,setPassword]=useState<string>("");
   const closeFormModal = () => {
     dispath(setCloseModal());
   };
@@ -18,6 +24,23 @@ const LoginForm:React.FC = () => {
     dispath(setOpenModal(2));
     console.log(openModal);
   } 
+  const clickLogin= async ()=>{
+    try {
+      const resLogin:responseLogin= await userServices.loginUser(phoneNumber,password);
+      if(resLogin.code==0)
+      {
+        login(resLogin.result);
+        dispath(setOpenModal(0));
+      }
+      else
+      {
+        alert("Đăng nhập thất bại");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    
+  }
   return (
     <>
       {openModal==1 && (
@@ -46,6 +69,8 @@ const LoginForm:React.FC = () => {
                     name="account"
                     placeholder="Tài khoản"
                     autoComplete="account"
+                    value={phoneNumber}
+                    onChange={(e)=>{setPhoneNumber(e.target.value)}}
                     className="
                   block w-full py-3 px-1 mt-2 
                   text-gray-800 appearance-none 
@@ -66,6 +91,8 @@ const LoginForm:React.FC = () => {
                       name="password"
                       placeholder="Mật khẩu"
                       autoComplete="current-password"
+                      value={password}
+                      onChange={(e)=>{setPassword(e.target.value)}}
                       className="
                       block w-full py-3 px-4 pr-10 mt-7 
                       text-gray-800 appearance-none 
@@ -131,7 +158,8 @@ const LoginForm:React.FC = () => {
                       Đăng ký
                     </button>
                     <button
-                      type="submit"
+                      type="button"
+                      onClick={clickLogin}
                       className="
                           min-w-[110px] min-h-[26px] py-2 mt-3 bg-[#FB9400] rounded-3xl
                           font-bold text-white text-sm

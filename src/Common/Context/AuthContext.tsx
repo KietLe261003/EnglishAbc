@@ -1,23 +1,23 @@
-import { User } from 'ckeditor5-premium-features';
 import { createContext, PropsWithChildren, useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { RouterLink } from '../../Util/RouterLink';
+import { AuthResponse } from '../../Type/User/User';
 interface AuthContextType {
-  user: User | null | undefined;
-  login: (user: User) => void;
+  user: AuthResponse | null | undefined;
+  login: (user: AuthResponse) => void;
   logout: () => void;
 }
-const USER_KEY=import .meta.env.USER_KEY;
+const USER_KEY=import.meta.env.VITE_USER_KEY;
 export const AuthConext = createContext<AuthContextType | null | undefined>(undefined);
 
 export const AuthContextProvider = ({ children }: PropsWithChildren) => {
   const navigate = useNavigate();
-  const [user, setUser] = useState<User | null>(() => {
+  const [user, setUser] = useState<AuthResponse | null>(() => {
     const storedUser = localStorage.getItem(USER_KEY);
     return storedUser ? JSON.parse(storedUser) : undefined;
   });
-  const login = (userData: User) => {
-    localStorage.setItem('User', JSON.stringify(userData));
+  const login = (userData: AuthResponse) => {
+    localStorage.setItem(USER_KEY,JSON.stringify(userData));
     setUser(userData);
     alert('Đăng nhập thành công');
     navigate(RouterLink.Home);
