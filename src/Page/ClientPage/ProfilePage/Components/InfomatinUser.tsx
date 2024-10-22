@@ -1,5 +1,7 @@
+import { useAuth } from "../../../../Common/Context/AuthContext";
 
 function InfomationUser() {
+  const {user}=useAuth();
   return (
     <>
       <div className='flex flex-wrap justify-center'>
@@ -47,7 +49,7 @@ function InfomationUser() {
       </div>
       <div className='text-center mt-12 w-full'>
         <h3 className='text-4xl font-semibold leading-normal mb-2 text-blueGray-700'>
-          Quốc Trung
+          {user && user.fullname}
         </h3>
         <div className='text-sm leading-normal mt-0 mb-2 text-blueGray-400 font-bold uppercase'>
           Thủ Dầu Một, Bình Dương

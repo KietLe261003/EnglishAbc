@@ -1,21 +1,14 @@
 import { useEffect, useMemo, useState } from "react";
 import LessonCard from "../CardItem/LessonCard";
 import { useNavigate } from "react-router-dom";
+import { ListDocumentObject } from "../../Type/Object/ListDocumentObject";
 interface ListDocumentProps {
     checkAll: boolean,
-    listData: ListDocumentObject[]
+    listData: ListDocumentObject[] | null
 }
-interface ListDocumentObject {
-    name: string,
-    description: string,
-    buttonContent?: string,
-    percent?: number, //nếu ở khóa học và tài liệu thì nó  tiến độ làm còn nếu là bài thi thì là điểm số
-    price?: number,
-    type?: string,
-    state?: string
-}
+
 const ListDocument:React.FC<ListDocumentProps>=({checkAll,listData})=> {
-    const listDocumentTmp: ListDocumentObject[] = useMemo(
+    const listDocumentTmp: ListDocumentObject[] | null = useMemo(
         () => listData,
         [listData] 
       );
@@ -35,7 +28,7 @@ const ListDocument:React.FC<ListDocumentProps>=({checkAll,listData})=> {
     }
     useEffect(()=>{
         if (!checkAll) {
-            setListDocument(listDocumentTmp.filter((item) => item.percent !== undefined));
+            setListDocument(listDocumentTmp && listDocumentTmp.filter((item) => item.percent !== undefined));
           } else {
             setListDocument(listDocumentTmp);
           }
@@ -44,7 +37,7 @@ const ListDocument:React.FC<ListDocumentProps>=({checkAll,listData})=> {
     return ( 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-y-6 gap-x-5 justify-items-center">
             {
-                listDocument.map((item,index)=>(
+                listDocument?.map((item,index)=>(
                     item.percent && item.type!=="exam"? 
                     <LessonCard key={index} name={item.name} description={item.description} buttonContent={item.buttonContent} percent={item.percent} clickDetail={clickDocumentFreePage}/>:
                     item.type==="course" ?

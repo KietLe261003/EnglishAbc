@@ -24,7 +24,7 @@ const ControllerForm = () => {
   },[user])
   return (
     <>
-      {user?.authenticated ? (  
+      {user ? (  
           <img
             onClick={() => {
               navigate('/profile');

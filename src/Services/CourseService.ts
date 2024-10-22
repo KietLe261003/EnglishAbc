@@ -3,12 +3,13 @@ import { CreateCourse } from '../Type/Course/Course';
 
 export const courseService = {
   getAllCourse: async () => {
-    try {
-      const courses = await request.get('course');
-      return courses.data;
-    } catch (error) {
-      console.log(error);
-    }
+      const courses = await request.get('course').then((res)=>{
+        return res.data;
+      }).catch((e)=>{
+        return e;
+      });
+      return courses;
+
   },
   createCourse: async (token: string, Course: CreateCourse) => {
     try {

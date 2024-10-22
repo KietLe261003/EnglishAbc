@@ -1,6 +1,6 @@
 import { request } from '../Common/Config/Request';
 import { responseUser } from '../Type/User/ResponseUser';
-import { responseLogin } from '../Type/User/User';
+import { responseInfoUser, responseLogin } from '../Type/User/User';
 import { UserLogup } from '../Type/User/UserLogup';
 
 export const userServices = {
@@ -52,4 +52,12 @@ export const userServices = {
       });
     return response;
   },
+  findUserByid: async(userId: number)=>{
+    const response=await request.get<responseInfoUser>(`/users/${userId}`).then((res)=>{
+        return res.data;
+    }).catch((e)=>{
+      return e;
+    })
+    return response;
+  }
 };

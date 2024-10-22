@@ -1,9 +1,10 @@
 import { createContext, PropsWithChildren, useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { RouterLink } from '../../Util/RouterLink';
-import { AuthResponse } from '../../Type/User/User';
+import { AuthResponse, responseInfoUser, User } from '../../Type/User/User';
+import { userServices } from '../../Services/UserService';
 interface AuthContextType {
-  user: AuthResponse | null | undefined;
+  user: User | null | undefined;
   login: (user: AuthResponse) => void;
   logout: () => void;
 }
@@ -12,14 +13,18 @@ export const AuthConext = createContext<AuthContextType | null | undefined>(unde
 
 export const AuthContextProvider = ({ children }: PropsWithChildren) => {
   const navigate = useNavigate();
-  const [user, setUser] = useState<AuthResponse | null>(() => {
+  const [user, setUser] = useState<User | null>(() => {
     const storedUser = localStorage.getItem(USER_KEY);
     return storedUser ? JSON.parse(storedUser) : undefined;
   });
-  const login = (userData: AuthResponse) => {
-    localStorage.setItem(USER_KEY,JSON.stringify(userData));
-    setUser(userData);
-    alert('Đăng nhập thành công');
+  const findUserById=async(id:number)=>{
+    const infoUser:responseInfoUser= await userServices.findUserByid(id);
+    return infoUser;
+  }
+  const login = async (userData: AuthResponse) => {
+    const infoUser= await findUserById(userData.userId);
+    localStorage.setItem(USER_KEY,JSON.stringify(infoUser.result));
+    setUser(infoUser.result);
     navigate(RouterLink.Home);
   };
   const logout = () => {};

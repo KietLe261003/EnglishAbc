@@ -1,10 +1,20 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import InformationBio from "./Contents/InformationBio";
 import FillterProfile from "./FillterProfile";
 import InfomationUser from "./InfomatinUser";
 import ListItemProfile from "./Contents/ListItemProfile";
+import { useAuth } from "../../../../Common/Context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 function ContentProfile() {
+  const {user}=useAuth();
+  const navigate=useNavigate();
+  useEffect(()=>{
+    if(!user)
+    {
+      navigate("/");
+    }
+  },[user])
     const listTab = [
         'Profile',
         'Courses',
