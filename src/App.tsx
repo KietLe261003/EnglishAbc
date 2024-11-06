@@ -1,11 +1,16 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 import "./App.css";
 import DefaultLayout from "./Layout/DefaultLayout/DefaultLayout";
 import { homeRoute } from "./Routes";
 import LayoutAdmin from "./Layout/AdminLayout/LayoutAdmin";
 import { adminRoute } from "./Routes/adminRoute";
+import { useEffect } from "react";
 
 const App: React.FC = () => {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
   return (
     <>
       <Routes>

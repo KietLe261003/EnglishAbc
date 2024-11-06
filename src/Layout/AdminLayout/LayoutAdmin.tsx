@@ -12,7 +12,7 @@ function LayoutAdmin() {
         {/* Content */}
         <main className='ml-[300px] col-span-12'>
           <NavBarAdmin/>
-          <div className='p-5 mt-[50px] '>
+          <div className='p-5 mt-[80px] '>
             <Outlet />
           </div>
         </main>
