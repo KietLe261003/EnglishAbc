@@ -5,29 +5,14 @@ import RemoveForm from '../../../Components/Form/RemoveForm';
 import AddNewCourse from './Components/AddNewCourse';
 import { Course, courseResponse } from '../../../Type/Course/Course';
 import { courseService } from '../../../Services/CourseService';
+import { useAuth } from '../../../Common/Context/AuthContext';
 
 const ListAndRemoveCourseAdmin: React.FC = () => {
+  const {token}=useAuth();
   const [detailForm, setDetailForm] = useState<boolean>(false);
   const [removeForm, setRemoveForm] = useState<boolean>(false);
   const [courseChoose, setCourseChoose] = useState<Course | null>(null);
   const [courses,setCourses]=useState<Course [] | null>(null);
-  // const courseItem: Course= {
-  //   teacher: 1,
-  //   creator: 1,
-  //   courseId: 1,
-  //   name: 'Khóa học Tiếng Anh Cơ Bản 2',
-  //   description: 'Khóa học dành cho người mới bắt đầu 2',
-  //   image: 'course_image2.png',
-  //   type: "IELTS",
-  //   status: true,
-  //   fee: 150,
-  //   quantitySession: 20,
-  //   startDatetime: '2024-09-15T10:00:00Z',
-  //   endDatetime: '2024-09-30T10:00:00Z',
-  //   createdAt: '2024-09-14T10:00:00Z',
-  //   updatedAt: '2024-09-14T10:00:00Z',
-  // };
-  // const courses = Array.from({ length: 10 }, () => ({ ...courseItem }));
   const column = [
     'courseId',
     'name',
@@ -37,16 +22,23 @@ const ListAndRemoveCourseAdmin: React.FC = () => {
     'Action',
   ];
   const status = ['Status', 'Miễn Phí', 'Học phí', 'Số lượng'];
-  const removeDocument = () => {
-    if (courseChoose) {
-      console.log(courseChoose);
-    }
-  };
   const getAllCourse = async ()=>{
     const course:courseResponse=await courseService.getAllCourse();
     setCourses(course.content);
-
   }
+  const removeDocument = async () => {
+    if (courseChoose) {
+      try {
+        await courseService.deleteCourse(token,courseChoose.courseId);
+        alert("Xóa thành công");
+        setRemoveForm(false);
+        getAllCourse();
+       } catch (error) {
+        alert("Xóa thất bại");
+       }
+    }
+  };
+  
   useEffect(()=>{
     getAllCourse();
   },[])
@@ -77,6 +69,8 @@ const ListAndRemoveCourseAdmin: React.FC = () => {
         setOpenForm={setDetailForm}
         content='Add new document'
         courseChoose={courseChoose}
+        setCourseChoose={getAllCourse}
+        getAllCourse={getAllCourse}
       />
     </div>
   );

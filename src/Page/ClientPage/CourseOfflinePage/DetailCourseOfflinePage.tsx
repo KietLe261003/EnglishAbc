@@ -3,11 +3,10 @@ import BannerMedium from "../../../Components/Banner/BannerMedium";
 import FilterDetail from "./Components/FilterDetail";
 import ButtonDetail from "./Components/ButtonDetail";
 import MainContent from "./Components/MainContent";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function DetailCourseOfflinePage() {
     const {id}=useParams();
-    console.log(id);
     const [currentContent,setCurrentContent]=useState<number>(1);
     return (
       <div className='flex flex-col gap-3'>

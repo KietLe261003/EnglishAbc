@@ -1,7 +1,11 @@
 import { RiCloseLargeLine } from 'react-icons/ri';
-import { Course, CreateCourse, TypeCourse } from '../../../../Type/Course/Course';
+import {
+  Course,
+  CreateCourse,
+  TypeCourse,
+} from '../../../../Type/Course/Course';
 import InputDescription from '../../../../Components/Input/InputDescription';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import InputTypeString from '../../../../Components/Input/InputTypeString';
 import InputTypeSelect from '../../../../Components/Input/InputTypeSelect';
 import InputTypeNumber from '../../../../Components/Input/InputTypeNumber';
@@ -9,13 +13,24 @@ import InputTypeDateTime from '../../../../Components/Input/InputTypeDateTime';
 import InputTypeFile from '../../../../Components/Input/InputTypeFile';
 import ConvertDateTime from '../../../../Util/ConvertTime';
 import { courseService } from '../../../../Services/CourseService';
+import { uploadFireBase } from '../../../../Util/UploadFile';
+import { useAuth } from '../../../../Common/Context/AuthContext';
 interface CreateFormProps {
   openForm: boolean;
   setOpenForm: React.Dispatch<React.SetStateAction<boolean>>;
   content?: string;
   courseChoose?: Course | null;
+  setCourseChoose: React.Dispatch<React.SetStateAction<Course | null>>;
+  getAllCourse: ()=>Promise<void>
 }
-const AddNewCourse: React.FC<CreateFormProps> = ({ openForm, setOpenForm, courseChoose }) => {
+const AddNewCourse: React.FC<CreateFormProps> = ({
+  openForm,
+  setOpenForm,
+  courseChoose,
+  setCourseChoose,
+  getAllCourse
+}) => {
+  const {token}=useAuth();
   const [name, setName] = useState<string>(courseChoose?.name || '');
   const [description, setDescription] = useState<string>('');
   const [image, setImage] = useState<string>('');
@@ -25,44 +40,62 @@ const AddNewCourse: React.FC<CreateFormProps> = ({ openForm, setOpenForm, course
   const [quantitySession, setQuantitySession] = useState<number>(0);
   const [startDatetime, setStartDatetime] = useState<string>('');
   const [endDatetime, setEndDatetime] = useState<string>('');
-  const [file,setFile]=useState<File | undefined>();
+  const [file, setFile] = useState<File | undefined>();
   const statusOption = ['true', 'false'];
   const typeCourse = ['ILETS', 'TOEIC'];
-  const addCourse = async ()=>{
-    const typeCourse:TypeCourse =type==="ILETS" ? TypeCourse.IELTS : TypeCourse.TOEIC;
-    const statusCourse:boolean= status==='true' ? true : false;
-    const currentTime = ConvertDateTime(new Date);
-    const newCourse:CreateCourse={
-      teacher: {userId: 1},
-      name,
-      description,
-      image,
-      type: typeCourse,
-      status: statusCourse,
-      fee,
-      quantitySession,
-      startDatetime,
-      endDatetime,
-      createdAt: currentTime,
-      updatedAt: currentTime,
+  const addCourse = async () => {
+    const typeCourse: TypeCourse =
+      type === 'ILETS' ? TypeCourse.IELTS : TypeCourse.TOEIC;
+    const statusCourse: boolean = status === 'true' ? true : false;
+    const currentTime = ConvertDateTime(new Date());
+    let fileURL = '';
+    if (file) {
+      try {
+        fileURL = await uploadFireBase(file);
+      } catch (error) {
+        console.log('File upload failed:', error);
+        alert('File upload failed.');
+        return;
+      }
     }
-    const token = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiY3VzdG9tQ2xhaW0iOiJjdXN0b20iLCJpc3MiOiJBYmNfZW5nbGlzaCIsImV4cCI6MTcyODcyMjI4NSwiaWF0IjoxNzI4NzE4Njg1LCJqdGkiOiI1MzAyMGM1NS1kZjQ2LTQwNzMtYjVlOS1kMGM1MGY0MDI5YzEifQ.dkwsjqFr7P-D5g7bATMGLCpjmnm_inms4trwuJ0-8lI3LEeDsqH6i_jiyuGXhy_mgoCpZ7i-FjGu9mB6eKwBjQ'
-    console.log(newCourse)
-    await courseService.createCourse(token,newCourse);
-    setOpenForm(false);
-  }
-  useEffect(()=>{
+    try {
+      const newCourse: CreateCourse = {
+        teacher: { userId: 1 },
+        name,
+        description,
+        image: fileURL,
+        type: typeCourse,
+        status: statusCourse,
+        fee,
+        quantitySession,
+        startDatetime,
+        endDatetime,
+        createdAt: currentTime,
+        updatedAt: currentTime,
+      };
+      if(courseChoose?.courseId)
+        await courseService.updateCourse(token,courseChoose.courseId,newCourse);
+      else
+        await courseService.createCourse(token, newCourse);
+      getAllCourse();
+      setOpenForm(false);
+    } catch (error) {
+      console.log(error);
+      alert("Thao tác thất bại");
+    }
+    
+  };
+  useEffect(() => {
     setName(courseChoose?.name || '');
     setDescription(courseChoose?.description || '');
     setImage(courseChoose?.image || '');
-    if(courseChoose?.status===true)
-      setType("true");
+    if (courseChoose?.status === true) setType('true');
     setType(courseChoose?.type || '');
     setFee(courseChoose?.fee || 0);
     setQuantitySession(courseChoose?.quantitySession || 0);
     setStartDatetime(courseChoose?.startDatetime || '');
     setEndDatetime(courseChoose?.endDatetime || '');
-  },[courseChoose])
+  }, [courseChoose]);
   return (
     openForm && (
       <div className='fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50'>
@@ -73,12 +106,30 @@ const AddNewCourse: React.FC<CreateFormProps> = ({ openForm, setOpenForm, course
               className='ml-4'
               onClick={() => {
                 setOpenForm(false);
+                setCourseChoose(null);
               }}
             >
               <RiCloseLargeLine />
             </button>
           </div>
           <div className='space-y-2 max-h-[700px] overflow-y-auto'>
+            {courseChoose && (
+              <div className='mb-4'>
+                <label
+                  className='block text-gray-700 text-sm font-bold mb-2'
+                  htmlFor='iddoc'
+                >
+                  Document Id
+                </label>
+                <input
+                  className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+                  id='iddoc'
+                  type='text'
+                  value={courseChoose.courseId}
+                  disabled
+                />
+              </div>
+            )}
             <div>
               <InputTypeString
                 title='Name Course'
@@ -116,14 +167,16 @@ const AddNewCourse: React.FC<CreateFormProps> = ({ openForm, setOpenForm, course
             <div className='flex space-x-6'>
               <div className='w-1/2 pr-4'>
                 <InputTypeNumber
-                  title='Fee course'
+                  title='Học phí'
                   setContent={setFee}
+                  content={fee}
                   placeholder='Học phí của khóa học '
                 />
               </div>
               <div className='w-1/2 pr-4'>
                 <InputTypeNumber
-                  title='QuantitySession'
+                  title='Số lượng học viên'
+                  content={quantitySession}
                   setContent={setQuantitySession}
                   placeholder='Số lượng học viên'
                 />
@@ -132,7 +185,7 @@ const AddNewCourse: React.FC<CreateFormProps> = ({ openForm, setOpenForm, course
             <div className='flex space-x-6'>
               <div className='w-1/2 pr-4'>
                 <InputTypeDateTime
-                  title='Start date course'
+                  title='Ngày bắt đầu khóa học'
                   content={startDatetime}
                   setContent={setStartDatetime}
                   placeholder='Ngày khai giảng'
@@ -140,7 +193,7 @@ const AddNewCourse: React.FC<CreateFormProps> = ({ openForm, setOpenForm, course
               </div>
               <div className='w-1/2 pr-4'>
                 <InputTypeDateTime
-                  title='End date course'
+                  title='Ngày kết thúc'
                   content={endDatetime}
                   setContent={setEndDatetime}
                   placeholder='Ngày kết thúc'
@@ -148,11 +201,18 @@ const AddNewCourse: React.FC<CreateFormProps> = ({ openForm, setOpenForm, course
               </div>
             </div>
             <div>
-              <InputTypeFile image={image} setImage={setImage} setFile={setFile}/>
+              <InputTypeFile
+                image={image}
+                setImage={setImage}
+                setFile={setFile}
+              />
             </div>
             <div className='flex justify-end'>
               <button
-                onClick={()=>{setOpenForm(false)}}
+                onClick={() => {
+                  setOpenForm(false);
+                  setCourseChoose(null);
+                }}
                 type='button'
                 className='
                           min-w-[110px] min-h-[26px] py-2 mt-3 mx-1 bg-[#ECEBE9] rounded-3xl
