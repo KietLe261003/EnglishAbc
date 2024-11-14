@@ -1,5 +1,5 @@
 export interface Document{
-    docId: string,
+    docId: number,
     course: string,
     content?: string,
     creator: number,

@@ -7,8 +7,10 @@ interface AuthContextType {
   user: User | null | undefined;
   login: (user: AuthResponse) => void;
   logout: () => void;
+  token: string | null | undefined
 }
 const USER_KEY=import.meta.env.VITE_USER_KEY;
+const USER_TOKEN=import.meta.env.VITE_USER_TOKEN;
 export const AuthConext = createContext<AuthContextType | null | undefined>(undefined);
 
 export const AuthContextProvider = ({ children }: PropsWithChildren) => {
@@ -17,19 +19,25 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
     const storedUser = localStorage.getItem(USER_KEY);
     return storedUser ? JSON.parse(storedUser) : undefined;
   });
-  const findUserById=async(id:number)=>{
-    const infoUser:responseInfoUser= await userServices.findUserByid(id);
+  const [token,setToken]=useState<string | null | undefined>(()=>{
+    const storeToken = localStorage.getItem(USER_TOKEN);
+    return storeToken ? storeToken : undefined;
+  })
+  const findUserById=async(token:string)=>{
+    const infoUser:responseInfoUser= await userServices.findUserByid(token);
     return infoUser;
   }
   const login = async (userData: AuthResponse) => {
-    const infoUser= await findUserById(userData.userId);
+    const infoUser= await findUserById(userData.token);
     localStorage.setItem(USER_KEY,JSON.stringify(infoUser.result));
+    localStorage.setItem(USER_TOKEN,userData.token);
     setUser(infoUser.result);
+    setToken(userData.token);
     navigate(RouterLink.Home);
   };
   const logout = () => {};
   return (
-    <AuthConext.Provider value={{ user, login, logout }}>
+    <AuthConext.Provider value={{ user, login, logout, token }}>
       {children}
     </AuthConext.Provider>
   );

@@ -14,14 +14,14 @@ const ListDocument:React.FC<ListDocumentProps>=({checkAll,listData})=> {
       );
     const [listDocument,setListDocument]=useState(listDocumentTmp);
     const navigate=useNavigate();
-    const clickDocumentFreePage=()=>{
-        navigate("/document/free/10");
+    const clickDocumentFreePage=(id: number)=>{
+        navigate(`/document/free/${id}`);
     }
-    const clickDocumentPayPage=()=>{
-        navigate("/document/notbought/10");
+    const clickDocumentPayPage=(id: number)=>{
+        navigate(`/document/notbought/${id}`);
     }
-    const clickCoursePage=()=>{
-        navigate("/course/offline/10");
+    const clickCoursePage=(id: number)=>{
+        navigate(`/course/offline/${id}`);
     }
     const clickExamPage=()=>{
         navigate("/exam/10");
@@ -39,14 +39,14 @@ const ListDocument:React.FC<ListDocumentProps>=({checkAll,listData})=> {
             {
                 listDocument?.map((item,index)=>(
                     item.percent && item.type!=="exam"? 
-                    <LessonCard key={index} name={item.name} description={item.description} buttonContent={item.buttonContent} percent={item.percent} clickDetail={clickDocumentFreePage}/>:
+                    <LessonCard key={index} name={item.name} description={item.description} buttonContent={item.buttonContent} percent={item.percent} clickDetail={clickDocumentFreePage} id={item.id}/>:
                     item.type==="course" ?
-                    <LessonCard key={index} name={item.name} description={item.description} percent={item.percent} price={item.price} type={true} clickDetail={clickCoursePage}/>:
+                    <LessonCard key={index} name={item.name} description={item.description} percent={item.percent} price={item.price} type={true} clickDetail={clickCoursePage} id={item.id}/>:
                     item.type==="documentpay" ?
-                    <LessonCard key={index} name={item.name} description={item.description} percent={item.percent} price={item.price} type={false} clickDetail={clickDocumentPayPage}/>:
+                    <LessonCard key={index} name={item.name} description={item.description} percent={item.percent} price={item.price} type={false} clickDetail={clickDocumentPayPage} id={item.id}/>:
                     item.type==="exam" ?
-                    <LessonCard key={index} name={item.name} description={item.description} buttonContent={item.buttonContent} state={item.state} clickDetail={clickExamPage}/>:
-                    <LessonCard key={index} name={item.name} description={item.description} buttonContent={item.buttonContent} percent={item.percent} clickDetail={clickDocumentFreePage}/>
+                    <LessonCard key={index} name={item.name} description={item.description} buttonContent={item.buttonContent} state={item.state} clickDetail={clickExamPage} id={item.id}/>:
+                    <LessonCard key={index} name={item.name} description={item.description} buttonContent={item.buttonContent} percent={item.percent} clickDetail={clickDocumentFreePage} id={item.id}/>
                 ))       
             }
         </div>  

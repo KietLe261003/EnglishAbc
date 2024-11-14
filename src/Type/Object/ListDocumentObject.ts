@@ -1,4 +1,5 @@
 export interface ListDocumentObject {
+    id: number,
     name: string,
     description: string,
     buttonContent?: string,

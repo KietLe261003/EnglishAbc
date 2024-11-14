@@ -15,7 +15,7 @@ interface Pageable {
   unpaged: boolean;
 }
 
-export interface DocumentResponse {
+export interface DocumentResponseGetAll {
   content: Document[];
   pageable: Pageable;
   last: boolean;
@@ -27,4 +27,19 @@ export interface DocumentResponse {
   first: boolean;
   numberOfElements: number;
   empty: boolean;
+}
+
+export interface DocumentResponse{
+  code: number,
+  result: Document
+}
+
+export interface DocumentRequest {
+  name: string;
+  description: string;
+  url: string;
+  images: string;
+  type: 'PDF' | 'DOC' | 'TXT' | string; // hoặc các loại khác nếu cần
+  status: boolean;
+  isFree: boolean;
 }

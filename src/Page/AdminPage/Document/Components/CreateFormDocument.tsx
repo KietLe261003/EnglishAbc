@@ -6,7 +6,10 @@ import InputTypeBoolean from "../../../../Components/Input/InputSelectTrueFalse"
 import { Document } from "../../../../Type/Document/Document";
 import InputTypeNumber from "../../../../Components/Input/InputTypeNumber";
 import InputTypeFile from "../../../../Components/Input/InputTypeFile";
-
+import InputTypeSelect from "../../../../Components/Input/InputTypeSelect";
+import { DocumentRequest } from "../../../../Type/Document/DocumentResponse";
+import { useAuth } from "../../../../Common/Context/AuthContext";
+import { documentService } from "../../../../Services/DocumentService";
 
 interface CreateFormDocumentProps{
     openForm: boolean,
@@ -14,20 +17,41 @@ interface CreateFormDocumentProps{
     content?: string,
     documentChoose?: Document | null
 }
+const typeDocumentOption = ['PDF', 'DOC','TXT'];
 const CreateFormDocument:React.FC<CreateFormDocumentProps> = ({openForm,setOpenForm,content="ADD NEWS ACCOUNT",documentChoose}) => {
+  const {token}=useAuth();
   const [nameDocument, setNameDocument] = useState<string>(documentChoose?.name|| "");
   const [contentDocument, setContentDocument] = useState<string>(documentChoose?.content || "");
   const [description,setDescription]=useState<string>(documentChoose?.description || "");
   const [status,setStatus]=useState<boolean>(documentChoose?.status || true);
+  const [typeDocument,setTypeDocument]=useState<'PDF' | 'DOC' | 'TXT' | string>('PDF');
   const [image,setImage]=useState<string>(documentChoose?.images || "");
   const [price,setPrice]=useState<number>(documentChoose?.price || 0);
   const [isFree,setIsFree]=useState<boolean>(documentChoose?.isFree || true);
 
-  
   const closeFormModal = () => {
     console.log(price);
     setOpenForm(false);
   };
+  const createDocument = async ()=>{
+      const newDocument:DocumentRequest={
+        name: nameDocument,
+        description,
+        url: "",
+        images: image,
+        type: typeDocument,
+        status,
+        isFree
+      }
+      try {
+        await documentService.createDocument(token,newDocument);
+        closeFormModal();
+      } catch (error) {
+        console.log(error);
+        alert("Thêm tài liệu thất bại");
+      }
+      
+  }
   useEffect(() => {
     if (documentChoose) {
       setNameDocument(documentChoose.name || "");
@@ -62,9 +86,9 @@ const CreateFormDocument:React.FC<CreateFormDocumentProps> = ({openForm,setOpenF
                   setContent={setNameDocument}
                   placeholder="Nhập tên của tài liệu"
                 />
-                <div className="grid grid-cols-1 gap-4">
+                <div className="grid grid-cols-3 gap-4">
                   <InputTypeBoolean
-                    title="Loại"
+                    title="Trả phí"
                     content={isFree}
                     setContent={setIsFree}
                   />
@@ -73,8 +97,14 @@ const CreateFormDocument:React.FC<CreateFormDocumentProps> = ({openForm,setOpenF
                     content={status}
                     setContent={setStatus}
                   />
+                  <InputTypeSelect
+                  title='Loại'
+                  titleOption={typeDocumentOption}
+                  content={typeDocument}
+                  setContent={setTypeDocument}
+                />
                 </div>
-                {!isFree && (
+                {isFree && (
                   <InputTypeNumber
                     title="Giá tiền"
                     setContent={setPrice}
@@ -82,16 +112,10 @@ const CreateFormDocument:React.FC<CreateFormDocumentProps> = ({openForm,setOpenF
                   />
                 )}
                 <InputDescription
-                  title="Mô tả của khóa học"
+                  title="Nội dung của tài liệu"
                   content={description}
                   setContent={setDescription}
                   placeholder="Mô tả về tài liệu học ngắn gọn"
-                />
-                <InputDescription
-                  title="Nội dung của khóa học"
-                  content={contentDocument}
-                  setContent={setContentDocument}
-                  placeholder="Nội dung chi tiết của tài liệu"
                 />
                 <InputTypeFile image={image} setImage={setImage} />
                 <div className="flex flex-col gap-4 sm:flex-row justify-end mt-4">
@@ -107,7 +131,8 @@ const CreateFormDocument:React.FC<CreateFormDocumentProps> = ({openForm,setOpenF
                     Cancel
                   </button>
                   <button
-                    type="submit"
+                    type="button"
+                    onClick={createDocument}
                     className="
                       w-full sm:w-auto min-h-[40px] py-2 px-4 bg-[#FB9400] rounded-3xl
                       font-bold text-white text-sm

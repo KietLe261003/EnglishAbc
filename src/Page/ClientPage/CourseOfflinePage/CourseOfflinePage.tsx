@@ -21,6 +21,7 @@ function CourseOfflinePage() {
     const courses:courseResponse= await courseService.getAllCourse();
     const listCourseInterface:ListDocumentObject[]= courses.content.map((item)=>{
         const course:ListDocumentObject={
+          id: item.courseId,
           name: item.name,
           description: item.description,
           buttonContent: "Xem chi tiết",

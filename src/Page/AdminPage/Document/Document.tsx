@@ -5,7 +5,7 @@ import TableAdmin from '../../../Components/Table/TableAdmin';
 import RemoveForm from '../../../Components/Form/RemoveForm';
 import CreateFormDocument from './Components/CreateFormDocument';
 import { documentService } from '../../../Services/DocumentService';
-import { DocumentResponse } from '../../../Type/Document/DocumentResponse';
+import { DocumentResponseGetAll } from '../../../Type/Document/DocumentResponse';
 
 function ManagementDocument() {
   const [detailForm, setDetailForm] = useState<boolean>(false);
@@ -36,7 +36,7 @@ function ManagementDocument() {
     }
   };
   const getAllDocument = async ()=>{
-    const tmp:DocumentResponse = await documentService.getAllDocument();
+    const tmp:DocumentResponseGetAll = await documentService.getAllDocument();
     setDocuments(tmp.content);
   }
   useEffect(()=>{

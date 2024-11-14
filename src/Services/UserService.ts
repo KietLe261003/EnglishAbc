@@ -52,8 +52,13 @@ export const userServices = {
       });
     return response;
   },
-  findUserByid: async(userId: number)=>{
-    const response=await request.get<responseInfoUser>(`/users/${userId}`).then((res)=>{
+  findUserByid: async(token: string)=>{
+    const response=await request.get<responseInfoUser>(`/users/profile`,{
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    }).then((res)=>{
         return res.data;
     }).catch((e)=>{
       return e;

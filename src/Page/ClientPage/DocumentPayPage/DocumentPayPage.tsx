@@ -3,7 +3,7 @@ import BannerMedium from "../../../Components/Banner/BannerMedium";
 import Fillter from "../../../Components/Filter/Fillter";
 import ListDocument from "../../../Components/List/ListDocument";
 import { ListDocumentObject } from "../../../Type/Object/ListDocumentObject";
-import { DocumentResponse } from "../../../Type/Document/DocumentResponse";
+import { DocumentResponseGetAll } from "../../../Type/Document/DocumentResponse";
 import { documentService } from "../../../Services/DocumentService";
 
 function DocumentPayPage() {
@@ -18,9 +18,10 @@ function DocumentPayPage() {
   console.log(filterTeacher); //Lọc dữ liệu giáo viên
   console.log(filterStatus); //Lọc dữ liệu trạng thái
   const getAllDocument=async()=>{
-    const documents:DocumentResponse=await documentService.getAllDocument();
+    const documents:DocumentResponseGetAll=await documentService.getAllDocument();
     const listdoc:ListDocumentObject[]= documents.content.filter(item=>item.isFree===false).map((item)=>{ 
       const doc:ListDocumentObject={
+        id: item.docId,
         name: item.name,
         description: item.description,
         buttonContent: "Xem chi tiết",
