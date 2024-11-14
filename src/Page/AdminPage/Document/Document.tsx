@@ -6,39 +6,32 @@ import RemoveForm from '../../../Components/Form/RemoveForm';
 import CreateFormDocument from './Components/CreateFormDocument';
 import { documentService } from '../../../Services/DocumentService';
 import { DocumentResponseGetAll } from '../../../Type/Document/DocumentResponse';
+import { useAuth } from '../../../Common/Context/AuthContext';
 
 function ManagementDocument() {
+  const {token}=useAuth();
   const [detailForm, setDetailForm] = useState<boolean>(false);
   const [removeForm, setRemoveForm] = useState<boolean>(false);
   const [documentChoose, setDocumentChoose] = useState<Document | null>(null);
   const [documents,setDocuments]=useState<Document[] | null>(null);
-  // const items: Document = {
-  //   docId: '12412',
-  //   course: 'Toeic',
-  //   creator: 1,
-  //   name: 'Thì hiện tại đơn',
-  //   description: 'Cách dùng, dấu hiện nhận biết',
-  //   url: '123124',
-  //   images: 'urlll',
-  //   type: 'Video',
-  //   status: true,
-  //   isFree: true,
-  //   createdAt: '12312',
-  //   updateAt: '12312',
-  // };
-  // const documents = Array.from({ length: 10 }, () => ({ ...items }));
-
   const column = ['docId', 'name', 'status', 'isFree', 'type', 'Action'];
   const status = ['Status', 'Miễn Phí', 'Trả phí'];
-  const removeDocument = () => {
-    if (documentChoose) {
-      console.log(documentChoose);
-    }
-  };
-  const getAllDocument = async ()=>{
+  const getAllDocument = async () : Promise<void>=>{
     const tmp:DocumentResponseGetAll = await documentService.getAllDocument();
     setDocuments(tmp.content);
   }
+  const removeDocument = async () => {
+    if (documentChoose) {
+       try {
+        await documentService.deleteDocument(token,documentChoose.docId);
+        alert("Xóa thành công");
+        setRemoveForm(false);
+        getAllDocument();
+       } catch (error) {
+        alert("Xóa thất bại");
+       }
+    }
+  };
   useEffect(()=>{
     getAllDocument();
   },[])
@@ -69,6 +62,8 @@ function ManagementDocument() {
         setOpenForm={setDetailForm}
         content='Add new document'
         documentChoose={documentChoose}
+        setDocumentChoose={setDocumentChoose}
+        getAllDocument={getAllDocument}
       />
     </div>
   );

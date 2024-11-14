@@ -2,13 +2,15 @@ import React from 'react';
 import { IconUploadFile } from '../../Common/Icon/Icon';
 interface InputTypeFileProps{
     image: string,
-    setImage: React.Dispatch<React.SetStateAction<string>>
+    setImage: React.Dispatch<React.SetStateAction<string>>,
+    setFile: React.Dispatch<React.SetStateAction<File | undefined>>
 }
-const InputTypeFile:React.FC<InputTypeFileProps>=({image,setImage})=> {
-
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+const InputTypeFile:React.FC<InputTypeFileProps>=({image,setImage,setFile})=> {
+  
+  const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
+      setFile(file);
       setImage(file.name);
     }
   };

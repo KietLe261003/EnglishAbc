@@ -27,5 +27,23 @@ export const documentService = {
             },
         })
         return res.data;
-    }
+    },
+    deleteDocument: async(token: string | null | undefined,id: number)=>{
+        const res = await request.delete(`/document/1/${id}`,{
+            headers: {
+                Authorization: `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            },
+        })
+        return res.data;
+    },
+    updateDocument: async(token: string | null | undefined,docId: number,newDocument: DocumentRequest)=>{
+        const res = await request.put(`/document/1/${docId}`,newDocument,{
+            headers: {
+                Authorization: `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            },
+        })
+        return res.data;
+    },
 }

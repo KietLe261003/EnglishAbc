@@ -25,6 +25,7 @@ const AddNewCourse: React.FC<CreateFormProps> = ({ openForm, setOpenForm, course
   const [quantitySession, setQuantitySession] = useState<number>(0);
   const [startDatetime, setStartDatetime] = useState<string>('');
   const [endDatetime, setEndDatetime] = useState<string>('');
+  const [file,setFile]=useState<File | undefined>();
   const statusOption = ['true', 'false'];
   const typeCourse = ['ILETS', 'TOEIC'];
   const addCourse = async ()=>{
@@ -147,7 +148,7 @@ const AddNewCourse: React.FC<CreateFormProps> = ({ openForm, setOpenForm, course
               </div>
             </div>
             <div>
-              <InputTypeFile image={image} setImage={setImage}/>
+              <InputTypeFile image={image} setImage={setImage} setFile={setFile}/>
             </div>
             <div className='flex justify-end'>
               <button
