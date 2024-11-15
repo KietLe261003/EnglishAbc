@@ -28,6 +28,7 @@ function ManagementDocument() {
         setRemoveForm(false);
         getAllDocument();
        } catch (error) {
+        console.error("Error removing document:", error);
         alert("Xóa thất bại");
        }
     }

@@ -36,10 +36,11 @@ export interface DocumentResponse{
 
 export interface DocumentRequest {
   name: string;
+  content: string;
   description: string;
   url: string;
   images: string;
-  type: 'PDF' | 'DOC' | 'TXT' | string; // hoặc các loại khác nếu cần
+  type: 'PDF' | 'VIDEO' | 'TXT' | string; // hoặc các loại khác nếu cần
   status: boolean;
   isFree: boolean;
 }

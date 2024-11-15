@@ -19,11 +19,12 @@ function DocumentPayPage() {
   console.log(filterStatus); //Lọc dữ liệu trạng thái
   const getAllDocument=async()=>{
     const documents:DocumentResponseGetAll=await documentService.getAllDocument();
-    const listdoc:ListDocumentObject[]= documents.content.filter(item=>item.isFree===false).map((item)=>{ 
+    const listdoc:ListDocumentObject[]= documents.content.filter(item=>item.isFree===true).map((item)=>{ 
       const doc:ListDocumentObject={
         id: item.docId,
         name: item.name,
-        description: item.description,
+        image: item.images,
+        description: item.content,
         buttonContent: "Xem chi tiết",
       }
       return doc;

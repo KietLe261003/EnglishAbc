@@ -1,7 +1,7 @@
 export interface Document{
     docId: number,
     course: string,
-    content?: string,
+    content: string,
     creator: number,
     name: string,
     description: string,

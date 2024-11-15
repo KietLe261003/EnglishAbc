@@ -43,10 +43,10 @@ const ListDocument:React.FC<ListDocumentProps>=({checkAll,listData})=> {
                     item.type==="course" ?
                     <LessonCard key={index} name={item.name} description={item.description} percent={item.percent} price={item.price} type={true} clickDetail={clickCoursePage} id={item.id}/>:
                     item.type==="documentpay" ?
-                    <LessonCard key={index} name={item.name} description={item.description} percent={item.percent} price={item.price} type={false} clickDetail={clickDocumentPayPage} id={item.id}/>:
+                    <LessonCard key={index} name={item.name} description={item.description} percent={item.percent} price={item.price} type={false} clickDetail={clickDocumentPayPage} id={item.id} images={item.image}/>:
                     item.type==="exam" ?
                     <LessonCard key={index} name={item.name} description={item.description} buttonContent={item.buttonContent} state={item.state} clickDetail={clickExamPage} id={item.id}/>:
-                    <LessonCard key={index} name={item.name} description={item.description} buttonContent={item.buttonContent} percent={item.percent} clickDetail={clickDocumentFreePage} id={item.id}/>
+                    <LessonCard key={index} name={item.name} description={item.description} buttonContent={item.buttonContent} percent={item.percent} clickDetail={clickDocumentFreePage} id={item.id} images={item.image}/>
                 ))       
             }
         </div>  

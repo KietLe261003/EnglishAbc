@@ -51,6 +51,7 @@ const CreateFormDocument:React.FC<CreateFormDocumentProps> = ({openForm,setOpenF
     }
       const newDocument:DocumentRequest={
         name: nameDocument,
+        content: contentDocument,
         description,
         url: "",
         images: fileURL,
@@ -80,7 +81,7 @@ const CreateFormDocument:React.FC<CreateFormDocumentProps> = ({openForm,setOpenF
       if (documentChoose) {
         setNameDocument(documentChoose.name || "");
         setDescription(documentChoose.description || "");
-        setContentDocument(documentChoose?.description || "");
+        setContentDocument(documentChoose?.content || "");
         setImage(documentChoose?.images || "");
         setPrice(documentChoose?.price || 0);
         setIsFree(documentChoose?.isFree || true);
@@ -136,6 +137,12 @@ const CreateFormDocument:React.FC<CreateFormDocumentProps> = ({openForm,setOpenF
                     setContent={setNameDocument}
                     placeholder='Nhập tên của tài liệu'
                   />
+                  <InputTypeString
+                    title='Short Content Document'
+                    content={contentDocument}
+                    setContent={setContentDocument}
+                    placeholder='Mô tả ngắn của tài liệu'
+                  />
                   <div className='grid grid-cols-3 gap-4'>
                     <InputTypeBoolean
                       title='Trả phí'
@@ -157,6 +164,7 @@ const CreateFormDocument:React.FC<CreateFormDocumentProps> = ({openForm,setOpenF
                   {isFree && (
                     <InputTypeNumber
                       title='Giá tiền'
+                      content={price}
                       setContent={setPrice}
                       placeholder='Nhập giá tiền của tài liệu'
                     />

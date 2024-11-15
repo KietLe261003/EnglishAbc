@@ -5,6 +5,7 @@ interface LessonCardProps {
   id: number;
   name: string;
   description: string;
+  images?: string;
   buttonContent?: string;
   state?: string;
   price?: number;
@@ -24,6 +25,7 @@ const LessonCard: React.FC<LessonCardProps> = ({
   border = false,
   type = true,
   percent,
+  images,
   clickDetail
 }) => {
   let classState = "absolute top-[110px] right-0 rounded-bl-full rounded-tl-full px-6 py-2 sm:top-[70px] sm:px-3 sm:py-1 md:top-[58px] md:px-3 md:py-1 lg:top-[77px] lg:px-4 lg:py-2 xl:top-[110px] xl:px-5 xl:py-2 2xl:top-[110px] 2xl:px-6 2xl:py-2 ";
@@ -71,7 +73,7 @@ const LessonCard: React.FC<LessonCardProps> = ({
           <span className="font-semibold text-white text-[14px]">{state}</span>
         </div>
         <img
-          src={CardImage}
+          src={images ? images : CardImage}
           alt="Placeholder Image"
           className="w-full max-h-[130px] object-cover rounded-t-3xl"
         />

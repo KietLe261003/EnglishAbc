@@ -51,6 +51,10 @@ interface Pageable {
   unpaged: boolean;
 }
 
+export interface courseResponseId{
+  code: number,
+  result: Course
+}
 
 export interface courseResponse{
   content: Course[];

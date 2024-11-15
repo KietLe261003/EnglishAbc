@@ -33,6 +33,7 @@ const Detaidocumentfreepage = () => {
         await documentService.getDocumentById(token, documentId);
       setDocumentDetail(documentResponse.result);
     } catch (error) {
+      console.error("Lỗi: ",error);
       alert('Tài liệu bị lỗi vui lòng quay lại sau');
       navigate('/document/free');
     }

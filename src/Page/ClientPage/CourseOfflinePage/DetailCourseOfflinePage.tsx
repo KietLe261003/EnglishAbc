@@ -4,10 +4,27 @@ import FilterDetail from "./Components/FilterDetail";
 import ButtonDetail from "./Components/ButtonDetail";
 import MainContent from "./Components/MainContent";
 import { useEffect, useState } from "react";
+import { courseService } from "../../../Services/CourseService";
+import { useAuth } from "../../../Common/Context/AuthContext";
+import { Course, courseResponseId} from "../../../Type/Course/Course";
 
 function DetailCourseOfflinePage() {
+    const {token}=useAuth();
     const {id}=useParams();
+    const courseId=Number(id);
     const [currentContent,setCurrentContent]=useState<number>(1);
+    const [course,setCourse]=useState<Course | null>(null);
+    const getCourse = async ()=>{
+      try {
+        const res:courseResponseId = await courseService.getCourseById(token,courseId);
+        setCourse(res.result);
+      } catch (error) {
+        console.log("Lỗi lấy dữ liệu khóa học: ",error);
+      }
+    }
+    useEffect(()=>{
+      getCourse();
+    },[])
     return (
       <div className='flex flex-col gap-3'>
         <BannerMedium
@@ -17,7 +34,7 @@ function DetailCourseOfflinePage() {
         <div className='min-h-[45px]'></div>
         <FilterDetail currentContent={currentContent} setCurrentContent={setCurrentContent}></FilterDetail>
         <div className='min-h-[45px]'></div>
-        <MainContent currentContent={currentContent}></MainContent>
+        <MainContent currentContent={currentContent} course={course}></MainContent>
         <div className='min-h-[45px]'></div>
         <div className='flex justify-end gap-2'>
           <ButtonDetail

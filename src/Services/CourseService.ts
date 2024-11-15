@@ -14,7 +14,7 @@ export const courseService = {
     return courses;
   },
   getCourseById: async (token: string | null | undefined, courseId: number) => {
-    const res = await request.get(`/document/${courseId}`, {
+    const res = await request.get(`/course/${courseId}`, {
       headers: {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
