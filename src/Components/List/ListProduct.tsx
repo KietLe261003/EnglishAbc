@@ -27,7 +27,7 @@ const ListProduct = () => {
                 <img
                   src={filterIcon}
                   alt='Filter Icon'
-                  className='bg-white p-2 rounded-full shadow-md border bg-slate-300 w-10 h-10 md:w-11 md:h-11'
+                  className='bg-white p-2 rounded-full shadow-md border w-10 h-10 md:w-11 md:h-11'
                 />
               </button>
 

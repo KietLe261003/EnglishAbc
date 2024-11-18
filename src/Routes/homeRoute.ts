@@ -1,5 +1,6 @@
 import CourseOfflinePage from "../Page/ClientPage/CourseOfflinePage/CourseOfflinePage";
 import DetailCourseOfflinePage from "../Page/ClientPage/CourseOfflinePage/DetailCourseOfflinePage";
+import LessonCourse from "../Page/ClientPage/CourseOfflinePage/LessonCourse";
 import Detaidocumentfreepage from "../Page/ClientPage/DocumentFreePage/Detaildocumentfreepage";
 import DocumentFreePage from "../Page/ClientPage/DocumentFreePage/DocumentFreePage";
 import DocumentPayPage from "../Page/ClientPage/DocumentPayPage/DocumentPayPage";
@@ -49,6 +50,10 @@ const homeRoute = [
     {
         path: RouterLink.Profile,
         element: ProfilePage
+    },
+    {
+        path: RouterLink.DetailLesson,
+        element: LessonCourse
     }
 ]
 

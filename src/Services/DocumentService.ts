@@ -11,7 +11,7 @@ export const documentService = {
         return res;
     },
     getDocumentById: async(token: string | null | undefined,docId: number)=>{
-        const res = await request.get(`/document/${docId}`,{
+        const res = await request.get(`/document/1/${docId}`,{
             headers: {
                 Authorization: `Bearer ${token}`,
                 'Content-Type': 'application/json',

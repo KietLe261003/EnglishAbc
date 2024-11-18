@@ -11,6 +11,7 @@ export enum RouterLink {
     DetailCourseOffline="/course/offline/:id",
     DetailDocumentFreePage="/document/free/:id",
     DetailExamPage="/exam/:id",
+    DetailLesson="/course/lesson/:id"
 }
 export enum RouterLinkAdmin {
     Home="",
