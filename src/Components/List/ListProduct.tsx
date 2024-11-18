@@ -1,5 +1,3 @@
-import img1 from '../../Assets/Image/Rectangle 178.png';
-import button_play from '../../Assets/Image/Button.svg';
 import video_test from '../../Assets/hientaidon.mp4';
 import CardLesson from '../CardItem/CardLesson';
 import Button from '../Button/Button';
@@ -27,7 +25,7 @@ const ListProduct = () => {
                 <img
                   src={filterIcon}
                   alt='Filter Icon'
-                  className='bg-white p-2 rounded-full shadow-md border w-10 h-10 md:w-11 md:h-11'
+                  className='p-2 rounded-full shadow-md border bg-slate-300 w-10 h-10 md:w-11 md:h-11'
                 />
               </button>
 
@@ -45,40 +43,14 @@ const ListProduct = () => {
               className='w-full h-full overflow-auto shadow rounded-xl bg-white'
               id='journal-scroll'
             >
-              <div
-                onClick={() => handleCardClick(0)}
-                className='flex items-center rounded-xl relative border-2 border-[orange] mb-3'
-              >
-                <img
-                  src={img1}
-                  alt='Image Description'
-                  className='w-1/3 h-24 md:h-32 object-cover'
-                />
-                <img
-                  src={button_play}
-                  alt='button play'
-                  className='absolute inset-0 m-auto w-6 h-6 md:w-8 md:h-8 ml-10'
-                />
-                <div className='ml-4'>
-                  <div className='font-bold'>Grammar explanation</div>
-                  <div className='leading-5 text-gray-500 text-xs mt-2'>
-                    {`Conditionals describe the result of a certain condition. The if clause tells you the condition (If you study hard) and the main clause tells you the result (you will pass your exams). The order of the clauses does not change the meaning.`.substring(
-                      0,
-                      99,
-                    ) + '...'}
-                  </div>
-                </div>
-              </div>
-              <div onClick={() => handleCardClick(1)}>
-                <CardLesson />
-                <CardLesson />
-                <CardLesson />
-                <CardLesson />
-                <CardLesson />
-                <CardLesson />
-                <CardLesson />
-                <CardLesson />
-              </div>
+                <CardLesson type='Accpect' onClick={()=>handleCardClick(0)}/>
+                <CardLesson type='Deny' onClick={()=>handleCardClick(1)}/>
+                <CardLesson type='Deny' onClick={()=>handleCardClick(1)}/>
+                <CardLesson type='Deny' onClick={()=>handleCardClick(1)}/>
+                <CardLesson type='Deny' onClick={()=>handleCardClick(1)}/>
+                <CardLesson type='Deny' onClick={()=>handleCardClick(1)}/>
+                <CardLesson type='Deny' onClick={()=>handleCardClick(1)}/>
+                <CardLesson type='Deny' onClick={()=>handleCardClick(1)}/>
             </div>
           </div>
         </div>
@@ -96,7 +68,7 @@ const ListProduct = () => {
               <source src={video_test} type='video/mp4' />
             </video>
           </div>
-          {selectedCard && (
+          {selectedCard===1 && (
             <div className='absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex items-center justify-center'>
               <img
                 src={cart}

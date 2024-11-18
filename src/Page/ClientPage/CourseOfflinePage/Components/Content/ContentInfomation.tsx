@@ -1,14 +1,14 @@
 import React from "react";
 import { Course } from "../../../../../Type/Course/Course";
 import { useNavigate } from "react-router-dom";
-
-interface ContentInfomationProps{
+interface ContentInformationProps{
   course: Course | null
 }
-const ContentInformation: React.FC<ContentInfomationProps>=({course})=> {
+
+const ContentInformation:React.FC<ContentInformationProps>=({course})=> {
   const navigate=useNavigate();
-  const detailLesson=()=>{
-    navigate(`/document/notbought/${course?.courseId}`);
+  const clickDetailLesson=()=>{
+    navigate(`/course/lesson/${course?.courseId}`);
   }
   return (
     <>
@@ -35,18 +35,18 @@ const ContentInformation: React.FC<ContentInfomationProps>=({course})=> {
             </p>
             <div className='flex items-center justify-center'>
               <p className='text-sm leading-none text-gray-600 dark:text-gray-300 mr-3'>
-                50
+                40
               </p>
             </div>
           </div>
+          <button onClick={clickDetailLesson} className='dark:bg-white dark:text-gray-900 dark:hover:bg-gray-100 focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 text-base flex items-center justify-center leading-none text-white bg-gray-800 w-full py-4 hover:bg-gray-700 focus:outline-none'>
+            Xem chi tiết
+          </button>
           <div>
-            <p className='xl:pr-48 text-base lg:leading-tight leading-normal text-gray-600 dark:text-gray-300 mt-7 mb-5'>
+            <p className='xl:pr-48 text-base lg:leading-tight leading-normal text-gray-600 dark:text-gray-300 mt-7'>
               {course?.description}
             </p>
           </div>
-          <button onClick={detailLesson} className='dark:bg-white dark:text-gray-900 dark:hover:bg-gray-100 focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 text-base flex items-center justify-center leading-none text-white bg-gray-800 w-full py-4 hover:bg-gray-700 focus:outline-none'>
-            Bắt đầu học
-          </button>
         </div>
       </div>
     </>
