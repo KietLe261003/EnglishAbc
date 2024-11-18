@@ -13,7 +13,7 @@ const MainContent: React.FC<MainContentProps> = ({ currentContent = 1,course}) =
   const renderContent = () => {
     switch (currentContent) {
       case 1:
-        return <ContentInformation/>
+        return <ContentInformation course={course}/>
       case 4:
         return <ContentDescription content={course?.description}/>;
       case 3:

@@ -2,7 +2,7 @@ export enum RouterLink {
     Home="/",
     DocumentFreePage="/document/free",
     DocumentPayPage="/document/pay",
-    LessonNotPurchased = "/document/notbought/:id",
+    LessonNotPurchased = "/document/lesson/:id",
     CourseOffline="/course/offline",
     Exam="/exam",
     Profile="/profile",
@@ -11,6 +11,7 @@ export enum RouterLink {
     DetailCourseOffline="/course/offline/:id",
     DetailDocumentFreePage="/document/free/:id",
     DetailExamPage="/exam/:id",
+    DetailLesson="/course/lesson/:courseId"
 }
 export enum RouterLinkAdmin {
     Home="",

@@ -18,6 +18,7 @@ function DetailCourseOfflinePage() {
       try {
         const res:courseResponseId = await courseService.getCourseById(token,courseId);
         setCourse(res.result);
+        console.log(course);
       } catch (error) {
         console.log("Lỗi lấy dữ liệu khóa học: ",error);
       }
