@@ -3,10 +3,12 @@ import button_play from '../../Assets/Image/Button.svg';
 import button_cart from '../../Assets/Image/Button_cart.svg';
 import React from 'react';
 interface CardLessonProps{
+  name: string,
+  content: string,
   type: 'Accpect' | 'Deny',
   onClick: ()=> void
 }
-const CardLesson: React.FC<CardLessonProps> = ({ type, onClick }) => {
+const CardLesson: React.FC<CardLessonProps> = ({ type, onClick,name,content }) => {
   return (
     <div
       className='flex items-center hover:border-2 border-[orange] rounded-xl relative mt-5'
@@ -23,9 +25,9 @@ const CardLesson: React.FC<CardLessonProps> = ({ type, onClick }) => {
         className='absolute inset-0 m-auto w-8 h-8 ml-10'
       />
       <div className='ml-4'>
-        <div className='font-bold'>Grammar explanation</div>
+        <div className='font-bold'>{name}</div>
         <div className='leading-5 text-gray-500 text-xs mt-2'>
-          {`Conditionals describe the result of a certain condition. The if clause tells you the condition (If you study hard) and the main clause tells you the result (you will pass your exams). The order of the clauses does not change the meaning.`.substring(
+          {content.substring(
             0,
             99
           ) + '...'}

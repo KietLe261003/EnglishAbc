@@ -2,21 +2,64 @@ import video_test from '../../Assets/hientaidon.mp4';
 import CardLesson from '../CardItem/CardLesson';
 import Button from '../Button/Button';
 import { IconArrowRight, IconSearch_2 } from '../../Common/Icon/Icon';
-import { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import cart from '../../Assets/Image/Button_cart.svg';
 import filterIcon from '../../Assets/Image/Filter.png';
-
-const ListProduct = () => {
+import { ApiResponseLesson} from '../../Type/Lesson';
+import { lessonService } from '../../Services/LessonService';
+import { Document } from '../../Type/Document/Document';
+import { documentService } from '../../Services/DocumentService';
+interface ListProductProps{
+  courseId: number
+}
+const ListProduct:React.FC<ListProductProps> = ({courseId}) => {
   const [selectedCard, setSelectedCard] = useState<string | number | null>(
     null,
   );
-
+  const [listDocument, setListDocument] = useState<Document[]>([]);
   const handleCardClick = (cardId: string | number) => {
     setSelectedCard(cardId);
   };
 
+  const getAllLesson=async()=>{
+    try {
+      const id: number = Number(courseId);
+      const res: ApiResponseLesson = await lessonService.getAllLessonByCourseId(id);
+  
+      const lessonIds = res.content.map((item) => item.lessonId);
+      const allDocs = await Promise.all(
+        lessonIds.map((lessonId) => documentService.getDocumentByLesson(lessonId))
+      );
+      const combinedDocuments = allDocs.flatMap((docRes) => docRes.content);
+      console.log("Chưa sort ",combinedDocuments);
+      const sortedDocuments = combinedDocuments.sort(
+        (a, b) => a.docId-b.docId
+      );
+      console.log("Đã sort: ",sortedDocuments);
+  
+      setListDocument(sortedDocuments);
+    } catch (error) {
+      console.log(error);
+      alert("Lấy thất bại");
+    }
+  }
+  const renderDoc = () => {
+    return listDocument.map((item, index) => (
+      <CardLesson
+        name={item.name}
+        content={item.content}
+        key={index} 
+        type="Accpect"
+        onClick={() => handleCardClick(0)}
+      />
+    ));
+  };
+  useEffect(()=>{
+    getAllLesson();
+  },[courseId])
+
   return (
-    <div className='flex flex-col md:flex-row items-start'>
+    <div className='flex flex-col md:flex-row items-start '>
       <div className='flex-1'>
         <div className='bg-gray-100 container mx-auto py-5 md:py-10 flex justify-center h-screen'>
           <div className='w-full md:w-96 h-full flex flex-col'>
@@ -43,14 +86,7 @@ const ListProduct = () => {
               className='w-full h-full overflow-auto shadow rounded-xl bg-white'
               id='journal-scroll'
             >
-                <CardLesson type='Accpect' onClick={()=>handleCardClick(0)}/>
-                <CardLesson type='Deny' onClick={()=>handleCardClick(1)}/>
-                <CardLesson type='Deny' onClick={()=>handleCardClick(1)}/>
-                <CardLesson type='Deny' onClick={()=>handleCardClick(1)}/>
-                <CardLesson type='Deny' onClick={()=>handleCardClick(1)}/>
-                <CardLesson type='Deny' onClick={()=>handleCardClick(1)}/>
-                <CardLesson type='Deny' onClick={()=>handleCardClick(1)}/>
-                <CardLesson type='Deny' onClick={()=>handleCardClick(1)}/>
+                {renderDoc()}
             </div>
           </div>
         </div>
