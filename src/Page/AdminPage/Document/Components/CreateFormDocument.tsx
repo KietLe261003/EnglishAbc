@@ -81,7 +81,7 @@ const CreateFormDocument:React.FC<CreateFormDocumentProps> = ({openForm,setOpenF
       if (documentChoose) {
         setNameDocument(documentChoose.name || "");
         setDescription(documentChoose.description || "");
-        setContentDocument(documentChoose?.content || "");
+        setContentDocument(documentChoose.content || "");
         setImage(documentChoose?.images || "");
         setPrice(documentChoose?.price || 0);
         setIsFree(documentChoose?.isFree || true);
