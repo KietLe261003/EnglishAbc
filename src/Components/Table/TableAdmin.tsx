@@ -1,6 +1,11 @@
-import React from "react";
-import { IconDetail, IconTrash } from "../../Common/Icon/Icon";
-import Pagination from "./Pagination";
+import React from 'react';
+import {
+  IconDetail,
+  IconDetailCourse,
+  IconTrash,
+} from '../../Common/Icon/Icon';
+import Pagination from './Pagination';
+import { useNavigate } from 'react-router-dom'; // 
 
 interface TableAdminProps<T> {
   column: string[];
@@ -10,8 +15,15 @@ interface TableAdminProps<T> {
   setItemChoose: React.Dispatch<React.SetStateAction<T | null>>;
 }
 
-const TableAdmin = <T,>({ data, column, setOpenFormDetail, setOpenFormRemove, setItemChoose }: TableAdminProps<T>) => {
-  
+const TableAdmin = <T,>({
+  data,
+  column,
+  setOpenFormDetail,
+  setOpenFormRemove,
+  setItemChoose,
+}: TableAdminProps<T>) => {
+
+  const navigate = useNavigate();
   return (
     <>
       <table className='rounded-t-lg m-5 w-full  mx-auto bg-[#FFF4E5] text-gray-800'>
@@ -32,21 +44,46 @@ const TableAdmin = <T,>({ data, column, setOpenFormDetail, setOpenFormRemove, se
               <tr
                 key={index}
                 className={`${
-                  index % 2 === 0 ? 'bg-gray-100 border-gray-200' : 'bg-[#D6B2B2]'
+                  index % 2 === 0
+                    ? 'bg-gray-100 border-gray-200'
+                    : 'bg-[#D6B2B2]'
                 } border-b rounded-t-lg m-5 w-full  mx-auto`}
               >
                 {column.map((field) => {
-                  return field === 'Action' ? ( 
+                  return field === 'Action' ? (
                     <td className='px-4 py-3 text-center'>
-                      <button className='m-[15px]' onClick={() => { setOpenFormDetail(true); setItemChoose(item); }}>
+                      <button
+                        className='m-[15px] '
+                        onClick={() => {
+                          navigate('/admin/coursedetail');
+                          setItemChoose(item);
+                        }}
+                      >
+                        <IconDetailCourse />
+                      </button>
+                      <button
+                        className='m-[15px]'
+                        onClick={() => {
+                          setOpenFormDetail(true);
+                          setItemChoose(item);
+                        }}
+                      >
                         <IconDetail />
                       </button>
-                      <button className='m-[15px]' onClick={() => { setOpenFormRemove(true); setItemChoose(item); }}>
+                      <button
+                        className='m-[15px]'
+                        onClick={() => {
+                          setOpenFormRemove(true);
+                          setItemChoose(item);
+                        }}
+                      >
                         <IconTrash />
                       </button>
                     </td>
                   ) : (
-                    <td className='px-4 py-3 text-center'>{(item as any)[field]+""}</td> // Using 'any' to access dynamic fields
+                    <td className='px-4 py-3 text-center'>
+                      {(item as any)[field] + ''}
+                    </td> // Using 'any' to access dynamic fields
                   );
                 })}
               </tr>

@@ -11,6 +11,7 @@ export enum RouterLink {
     DetailCourseOffline="/course/offline/:id",
     DetailDocumentFreePage="/document/free/:id",
     DetailExamPage="/exam/:id",
+    PayPage="PayPage/paypage",
 }
 export enum RouterLinkAdmin {
     Home="",
@@ -20,5 +21,9 @@ export enum RouterLinkAdmin {
     Course="course",
     RegisteredCourse="registeredCourse",
     Teacher="teacher",
-    Feedback="feedback"
+    Feedback="feedback",
+    CourseDetail ="coursedetail"
+
+    ,
+    Chapterform = "chapterform"
 }
