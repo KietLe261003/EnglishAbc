@@ -48,13 +48,7 @@ const InputDescription:React.FC<InputTypeStringProps> = ({title,content,placehol
               'indent',
             ],
           },
-          image: {
-            toolbar: [
-              'imageTextAlternative',
-              'imageStyle:full',
-              'imageStyle:side',
-            ],
-          },
+          
           placeholder: placeholder,
           initialData: content,
         }}
