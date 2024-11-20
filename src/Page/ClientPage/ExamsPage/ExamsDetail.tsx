@@ -107,6 +107,19 @@ const ExamsDetail: React.FC = () => {
                 error={wrongs[`${index}`]}
               />
             ))}
+            <Question
+                type="abc"
+                question="AbC"
+                options={[
+                  { label: 'Become', key: 'A' },
+                  { label: 'Break', key: 'B' },
+                  { label: 'Be', key: 'C' },
+                  { label: 'Get', key: 'D' },
+                ]}
+                name="abc"
+                onChange={handleAnswerChange("abc")}
+                //error={wrongs[`${index}`]}
+              />
           </div>
         </div>
 

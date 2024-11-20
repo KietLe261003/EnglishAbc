@@ -10,6 +10,7 @@ export enum RouterLink {
     Chat="/chat",
     DetailCourseOffline="/course/offline/:id",
     DetailDocumentFreePage="/document/free/:id",
+    DetailLesson="/course/lesson/:courseId",
     DetailExamPage="/exam/:id",
     PayPage="PayPage/paypage",
 }

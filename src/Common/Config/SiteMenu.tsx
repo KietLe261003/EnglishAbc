@@ -25,7 +25,7 @@ export const siteMenu = [
     icon: <IconBook />,
   },
   {
-    name: 'Khóa học offline',
+    name: 'Khóa học',
     href: RouterLink.CourseOffline,
     icon: <IconVideo />,
   },
