@@ -9,7 +9,7 @@ import {
 import { useState } from 'react';
 interface ItemRoadMapProp {
   content: string;
-  descript: string;
+  descript: string[];
 }
 const ItemRoadMap: React.FC<ItemRoadMapProp> = ({
   descript,
@@ -49,9 +49,13 @@ const ItemRoadMap: React.FC<ItemRoadMapProp> = ({
                     <AccordionIcon />
                   </AccordionButton>
                 </h2>
-                <AccordionPanel pb={4} borderRadius='full'>
-                  {descript}
-                </AccordionPanel>
+                {
+                  descript.map((item)=>{
+                    return <AccordionPanel pb={4} borderRadius='full'>
+                      {item}
+                    </AccordionPanel>
+                  })
+                }
               </AccordionItem>
             </Accordion>
           </div>

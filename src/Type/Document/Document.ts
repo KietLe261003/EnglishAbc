@@ -1,6 +1,6 @@
 export interface Document{
     docId: number,
-    course: string,
+    lesson: string,
     content: string,
     creator: number,
     name: string,

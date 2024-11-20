@@ -74,7 +74,7 @@ const LessonCard: React.FC<LessonCardProps> = ({
         </div>
         <img
           src={images ? images : CardImage}
-          alt="Placeholder Image"
+          alt={"lỗi hình"}
           className="w-full max-h-[130px] object-cover rounded-t-3xl"
         />
         {percent && (

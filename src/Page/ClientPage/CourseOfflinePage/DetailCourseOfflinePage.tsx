@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import BannerMedium from "../../../Components/Banner/BannerMedium";
 import FilterDetail from "./Components/FilterDetail";
 import ButtonDetail from "./Components/ButtonDetail";
@@ -14,13 +14,18 @@ function DetailCourseOfflinePage() {
     const courseId=Number(id);
     const [currentContent,setCurrentContent]=useState<number>(1);
     const [course,setCourse]=useState<Course | null>(null);
+    const navigate=useNavigate();
     const getCourse = async ()=>{
       try {
         const res:courseResponseId = await courseService.getCourseById(token,courseId);
         setCourse(res.result);
+        console.log(course);
       } catch (error) {
         console.log("Lỗi lấy dữ liệu khóa học: ",error);
       }
+    }
+    const otherCourse=()=>{
+      navigate("/course/offline");
     }
     useEffect(()=>{
       getCourse();
@@ -38,6 +43,7 @@ function DetailCourseOfflinePage() {
         <div className='min-h-[45px]'></div>
         <div className='flex justify-end gap-2'>
           <ButtonDetail
+            onClick={otherCourse}
             variant='secondary'
             isSmall={true}
           >
