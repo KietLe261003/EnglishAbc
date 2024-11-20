@@ -23,8 +23,8 @@ const ListDocument:React.FC<ListDocumentProps>=({checkAll,listData})=> {
     const clickCoursePage=(id: number)=>{
         navigate(`/course/offline/${id}`);
     }
-    const clickExamPage=()=>{
-        navigate("/exam/10");
+    const clickExamPage=(id: number)=>{
+        navigate(`/exam/${id}`);
     }
     useEffect(()=>{
         if (!checkAll) {
