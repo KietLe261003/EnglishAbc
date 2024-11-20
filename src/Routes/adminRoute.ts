@@ -7,7 +7,10 @@ import ListAndRemoveCourseAdmin from "../Page/AdminPage/Course/ListAndRemoveCour
 import ManagementResgiteredCourse from "../Page/AdminPage/RegisteredCourse/Index";
 import ManagementTeacher from "../Page/AdminPage/Teacher/Index";
 import { RouterLinkAdmin } from "../Util/RouterLink";
+import CourseDetailPage from "../Page/AdminPage/EditCourse/CourseDetailPage";
 
+
+import CreateChapterForm from "../Page/AdminPage/EditCourse/Components/CreateChapterForm";
 export const adminRoute=[
     {
         path: RouterLinkAdmin.Home,
@@ -40,5 +43,15 @@ export const adminRoute=[
     {
         path: RouterLinkAdmin.Feedback,
         element: ManagementFeedBack
+    },
+    {
+        path: RouterLinkAdmin.CourseDetail,
+        element: CourseDetailPage
+    },
+
+
+    {
+        path: RouterLinkAdmin.Chapterform,
+        element: CreateChapterForm
     }
 ]

@@ -10,6 +10,8 @@ import ExamsPage from "../Page/ClientPage/ExamsPage/ExamsPage";
 import HomePage from "../Page/ClientPage/HomePage/HomePage";
 import ProfilePage from "../Page/ClientPage/ProfilePage/ProfilePage";
 import { RouterLink } from "../Util/RouterLink";
+import PayPage from "../Page/ClientPage/PayPage/PayPage";
+
 const homeRoute = [
     {
         path: RouterLink.Home,
@@ -52,9 +54,9 @@ const homeRoute = [
         element: ProfilePage
     },
     {
-        path: RouterLink.DetailLesson,
-        element: DetailLessonCourse
-    }
+        path: RouterLink.PayPage,
+        element: PayPage
+    },
 ]
 
 export default homeRoute

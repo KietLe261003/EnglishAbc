@@ -12,7 +12,7 @@ function LessonNotPurchased() {
           </div>
         </section>
       </div>
-    </div>                                    
+    </div>
   );
 }
 
