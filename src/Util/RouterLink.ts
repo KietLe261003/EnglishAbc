@@ -12,6 +12,7 @@ export enum RouterLink {
     DetailDocumentFreePage="/document/free/:id",
     DetailExamPage="/exam/:id",
     DetailLesson="/course/lesson/:courseId"
+    PayPage="PayPage/paypage",
 }
 export enum RouterLinkAdmin {
     Home="",
@@ -21,5 +22,9 @@ export enum RouterLinkAdmin {
     Course="course",
     RegisteredCourse="registeredCourse",
     Teacher="teacher",
-    Feedback="feedback"
+    Feedback="feedback",
+    CourseDetail ="coursedetail"
+
+    ,
+    Chapterform = "chapterform"
 }
