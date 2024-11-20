@@ -5,14 +5,18 @@ import Timer from './Components/Timer';
 import { useParams } from 'react-router-dom';
 import { QuestionResponse, QuestionType } from '../../../Type/Question';
 import { exerciseService } from '../../../Services/ExerciseService';
+import { answerService } from '../../../Services/AnswerService';
+import { useAuth } from '../../../Common/Context/AuthContext';
+import { convertHtmlToPlainText } from '../../../Util/ConvertHtmltoString';
+import { Answer, GrammarError } from '../../../Type/Answer';
 
 const ExamsDetail: React.FC = () => {
   const { id } = useParams();
+  const {token}=useAuth();
   const exersiceId = Number(id);
   const [answers, setAnswers] = useState<{ [key: string]: string | null }>({});
-
-  const handleAnswerChange =
-    (questionName: string) => (selectedKey: string | null) => {
+  const [wrongs,setWrongs]=useState<{ [key: string]: GrammarError[] | undefined }>({});
+  const handleAnswerChange =(questionName: string) => (selectedKey: string | null) => {
       setAnswers((prevAnswers) => {
         const currentAnswer = prevAnswers[questionName];
         if (currentAnswer === selectedKey) {
@@ -23,9 +27,37 @@ const ExamsDetail: React.FC = () => {
       });
     };
 
-  const handleClick = () => {
-    alert('Button clicked!');
-  };
+    const handleClick = async () => {
+      try {
+        const grammarResults = await Promise.all(
+          questions.map(async (question, index) => {
+            if (question.skillType === "WRITING") {
+              const content = answers[`${index}`] || ""; // Tránh lỗi undefined
+              try {
+                const response: Answer = await answerService.checkGrammar(
+                  token,
+                  question.questionId,
+                  convertHtmlToPlainText(content)
+                );
+                return { [index]: response.grammarErrors || [] };
+              } catch (error) {
+                console.error(`Error checking grammar for question ${index}:`, error);
+                return { [index]: [] }; // Tránh lỗi toàn bộ nếu một câu thất bại
+              }
+            }
+            return { [index]: [] }; // Không áp dụng nếu không phải "WRITING"
+          })
+        );
+        const newWrongs = grammarResults.reduce(
+          (acc, curr) => ({ ...acc, ...curr }),
+          {}
+        );
+        setWrongs(newWrongs);
+      } catch (error) {
+        alert("An error occurred during processing.");
+        console.error(error);
+      }
+    };
 
   const handleCellClick = (cellNumber: number) => {
     console.log('Cell clicked:', cellNumber);
@@ -59,8 +91,9 @@ const ExamsDetail: React.FC = () => {
         {/* Left Side (Quiz Questions) */}
         <div className='flex-grow max-w-full mr-10'>
           <div className='space-y-8'>
-            {questions.map((item) => (
+            {questions.map((item,index) => (
               <Question
+                key={index}
                 type={item.skillType}
                 question={item.text}
                 options={[
@@ -69,8 +102,9 @@ const ExamsDetail: React.FC = () => {
                   { label: 'Be', key: 'C' },
                   { label: 'Get', key: 'D' },
                 ]}
-                name='question1'
-                onChange={handleAnswerChange('question1')}
+                name={index+""}
+                onChange={handleAnswerChange(index+"")}
+                error={wrongs[`${index}`]}
               />
             ))}
           </div>
@@ -88,7 +122,7 @@ const ExamsDetail: React.FC = () => {
               Tạm dừng
             </Button>
             <div className='grid grid-cols-7 mt-4 gap-2'>
-              {Array.from({ length: 40 }, (_, index) => (
+              {Array.from({ length: questions.length }, (_, index) => (
                 <div
                   key={index}
                   className={`w-8 h-8 flex items-center justify-center rounded-full cursor-pointer transition-colors duration-300 ${
