@@ -54,13 +54,13 @@ const homeRoute = [
         element: ProfilePage
     },
     {
+        path: RouterLink.DetailLesson,
+        element: DetailLessonCourse
+    },
+    {
         path: RouterLink.PayPage,
         element: PayPage
     },
-    {
-        path: RouterLink.DetailLesson,
-        element: DetailLessonCourse
-    }
 ]
 
 export default homeRoute
