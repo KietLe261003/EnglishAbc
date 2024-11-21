@@ -12,5 +12,9 @@ export const answerService={
             },
         })
         return res.data;
+    },
+    getAllAnswerOfQuestion: async(id: number)=>{
+        const res= await request.get(`/answer/${id}`);
+        return res.data;
     }
 }

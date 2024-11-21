@@ -5,8 +5,9 @@ export interface QuestionType {
     text: string;
     status: boolean;
     score: number; // Assuming this is a decimal value
-    questionType: "ESSAY" | "MULTIPLE_CHOICE" | "TRUE_FALSE"; // Extendable as needed
+    questionType: string; // Extendable as needed
     skillType: "WRITING" | "READING" | "LISTENING" | "SPEAKING"; // Extendable as needed
+    options?: { label: string; key: string }[]
   }
   
   interface Sort {
