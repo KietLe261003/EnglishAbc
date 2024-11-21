@@ -8,12 +8,13 @@ import { exerciseService } from '../../../Services/ExerciseService';
 import { answerService } from '../../../Services/AnswerService';
 import { useAuth } from '../../../Common/Context/AuthContext';
 import { convertHtmlToPlainText } from '../../../Util/ConvertHtmltoString';
-import { Answer, GrammarError } from '../../../Type/Answer';
+import { Answer, GrammarError, ResponseDataAnswer } from '../../../Type/Answer';
 
 const ExamsDetail: React.FC = () => {
   const { id } = useParams();
   const {token}=useAuth();
   const exersiceId = Number(id);
+  const [questions, setQuestions] = useState<QuestionType[]>([]);
   const [answers, setAnswers] = useState<{ [key: string]: string | null }>({});
   const [wrongs,setWrongs]=useState<{ [key: string]: GrammarError[] | undefined }>({});
   const handleAnswerChange =(questionName: string) => (selectedKey: string | null) => {
@@ -68,13 +69,62 @@ const ExamsDetail: React.FC = () => {
       answers[`question${questionIndex}`] !== undefined
     );
   };
-  const [questions, setQuestions] = useState<QuestionType[]>([]);
+  
   const getAllQuestion = async () => {
-    const res: QuestionResponse = await exerciseService.getAllQuestion(
-      exersiceId,
-    );
-    setQuestions(res.content);
+    try {
+      const res: QuestionResponse = await exerciseService.getAllQuestion(exersiceId);
+      const updatedQuestions = await Promise.all(
+        res.content.map(async (question) => {
+          if (question.questionType === "MULTIPLE_CHOICE") {
+            const resAnswer: ResponseDataAnswer = await answerService.getAllAnswerOfQuestion(
+              question.questionId
+            );
+            const options = resAnswer.content.map((item) => ({
+              label: item.content,
+              key: item.content,
+            }));
+            return { ...question, options };
+          }
+          return question; // Nếu không phải MULTIPLE_CHOICE, giữ nguyên.
+        })
+      );
+      setQuestions(updatedQuestions);
+    } catch (error) {
+      console.error("Error fetching questions:", error);
+    }
   };
+  
+
+  const renderQuestion = (question: QuestionType, index: number) => {
+    switch (question.questionType) {
+      case "ESSAY":
+        return (
+          <Question
+            key={index}
+            type={question.skillType}
+            question={question.text}
+            name={index + ""}
+            onChange={handleAnswerChange(index + "")}
+            error={wrongs[`${index}`]}
+          />
+        );
+      case "MULTIPLE_CHOICE":
+        return (
+          <Question
+            key={index}
+            type={question.skillType}
+            question={question.text}
+            options={question.options || []} // Sử dụng options đã được xử lý trước
+            name={index + ""}
+            onChange={handleAnswerChange(index + "")}
+            error={wrongs[`${index}`]}
+          />
+        );
+      default:
+        return null;
+    }
+  };
+  
   useEffect(() => {
     getAllQuestion();
   }, []);
@@ -92,20 +142,7 @@ const ExamsDetail: React.FC = () => {
         <div className='flex-grow max-w-full mr-10'>
           <div className='space-y-8'>
             {questions.map((item,index) => (
-              <Question
-                key={index}
-                type={item.skillType}
-                question={item.text}
-                options={[
-                  { label: 'Become', key: 'A' },
-                  { label: 'Break', key: 'B' },
-                  { label: 'Be', key: 'C' },
-                  { label: 'Get', key: 'D' },
-                ]}
-                name={index+""}
-                onChange={handleAnswerChange(index+"")}
-                error={wrongs[`${index}`]}
-              />
+              renderQuestion(item,index)
             ))}
           </div>
         </div>

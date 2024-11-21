@@ -13,3 +13,43 @@ export interface Answer {
     userId: number; // ID của người dùng
     grammarErrors: GrammarError[]; // Danh sách lỗi ngữ pháp
 }
+
+
+export interface AnswerChoice {
+    answerId: number;
+    questionId: number;
+    content: string;
+    userId: number;
+    isCorrect: boolean;
+    status: boolean;
+  }
+  
+  interface Sort {
+    empty: boolean;
+    sorted: boolean;
+    unsorted: boolean;
+  }
+  
+  interface Pageable {
+    pageNumber: number;
+    pageSize: number;
+    sort: Sort;
+    offset: number;
+    paged: boolean;
+    unpaged: boolean;
+  }
+  
+export interface ResponseDataAnswer {
+    content: Answer[];
+    pageable: Pageable;
+    last: boolean;
+    totalPages: number;
+    totalElements: number;
+    size: number;
+    number: number;
+    sort: Sort;
+    first: boolean;
+    numberOfElements: number;
+    empty: boolean;
+  }
+  
