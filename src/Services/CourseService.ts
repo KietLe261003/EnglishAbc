@@ -27,7 +27,7 @@ export const courseService = {
     Course: CreateCourse,
   ) => {
     const res = await request.post(
-      'http://localhost:8080/api/v1/course',
+      'http://localhost:8080/api/v1/course/admin',
       Course,
       {
         headers: {
@@ -52,7 +52,7 @@ export const courseService = {
     docId: number,
     newCourse: CreateCourse,
   ) => {
-    const res = await request.put(`/course/${docId}`, newCourse, {
+    const res = await request.put(`/course/admin/${docId}`, newCourse, {
       headers: {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',

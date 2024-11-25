@@ -5,6 +5,7 @@ import { homeRoute } from "./Routes";
 import LayoutAdmin from "./Layout/AdminLayout/LayoutAdmin";
 import { adminRoute } from "./Routes/adminRoute";
 import { useEffect } from "react";
+import PrivateRoute from "./Common/Context/PrivateRoute";
 
 const App: React.FC = () => {
   const { pathname } = useLocation();
@@ -25,14 +26,16 @@ const App: React.FC = () => {
             );
           })}
         </Route>
-        <Route path="admin" element={<LayoutAdmin/>}>
-          {
-            adminRoute.map((route,index)=>{
-              return (
-                <Route key={index} path={route.path} element={<route.element/>}/>
-              )
-            })
-          }
+        <Route path="admin" element={<PrivateRoute />}>
+          <Route element={<LayoutAdmin />}>
+            {adminRoute.map((route, index) => (
+              <Route
+                key={index}
+                path={route.path}
+                element={<route.element />}
+              />
+            ))}
+          </Route>
         </Route>
       </Routes>
     </>
