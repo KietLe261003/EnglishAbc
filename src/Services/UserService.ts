@@ -58,5 +58,9 @@ export const userServices = {
       return e;
     })
     return response;
+  },
+  banUser: async(phone: string)=>{
+    const res=await request.post('users/ban',{phone: phone});
+    return res.data;
   }
 };

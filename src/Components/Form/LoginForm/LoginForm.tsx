@@ -1,4 +1,4 @@
-import {  useState } from "react";
+import {  useEffect, useState } from "react";
 import { IconWindowClose } from "../../../Common/Icon/Icon";
 import CardTitleComponent from "../CardTitleComponent";
 import { useAppDispatch, useAppSelector } from "../../../Hooks/Store";
@@ -15,6 +15,7 @@ const LoginForm:React.FC = () => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [phoneNumber,setPhoneNumber]=useState<string>("");
   const [password,setPassword]=useState<string>("");
+  const [tryPassword,setTryPassword]=useState<number>(0);
   const closeFormModal = () => {
     dispath(setCloseModal());
   };
@@ -40,12 +41,33 @@ const LoginForm:React.FC = () => {
     } catch (error) {
       if (error instanceof AxiosError && error.response) {
         alert(error.response.data.message);
+        if(error.response.data.message==="Unauthenticated Wrong Password")
+        {
+          setTryPassword(tryPassword+1);
+        }
         console.log(error.response.data.message);
       } else {
         console.log("Đã xảy ra lỗi không xác định:", error);
       }
     }
   }
+  const banAccount= async ()=>{
+    try {
+      const res = userServices.banUser(phoneNumber);
+      alert("Tài khoản đã bị khóa");
+      console.log(res);
+      setTryPassword(0);
+    } catch (error) {
+      alert("Khóa tài khoản thất bại");
+      console.log(error);
+    }
+  }
+  useEffect(()=>{
+    if(tryPassword===5)
+    {
+      banAccount();
+    }
+  },[tryPassword])
   return (
     <>
       {openModal==1 && (
@@ -137,6 +159,10 @@ const LoginForm:React.FC = () => {
                       )}
                     </div>
                   </div>
+                  {
+                    tryPassword >= 1 && <span className="p-2 text-red-400">Số lần thử còn {5-tryPassword} </span>
+                  }
+                  
 
                   <div className="relative sm:flex sm:flex-wrap mt-2 sm:mb-4 text-sm text-center">
                     <div className="flex justify-end w-full">

@@ -14,7 +14,8 @@ import CreateChapterForm from "../Page/AdminPage/EditCourse/Components/CreateCha
 export const adminRoute=[
     {
         path: RouterLinkAdmin.Home,
-        element: HomePageAdmin
+        element: HomePageAdmin,
+        role: "admin"
     },
     {
         path: RouterLinkAdmin.Account,
@@ -48,8 +49,6 @@ export const adminRoute=[
         path: RouterLinkAdmin.CourseDetail,
         element: CourseDetailPage
     },
-
-
     {
         path: RouterLinkAdmin.Chapterform,
         element: CreateChapterForm
