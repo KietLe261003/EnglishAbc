@@ -43,14 +43,8 @@ export const userServices = {
       .post<responseLogin>('/auth/login', {
         phone: phoneNumber,
         password: passsword,
-      })
-      .then((res) => {
-        return res.data;
-      })
-      .catch((e) => {
-        return e;
       });
-    return response;
+    return response.data;
   },
   findUserByid: async(token: string)=>{
     const response=await request.get<responseInfoUser>(`/users/profile`,{

@@ -6,6 +6,7 @@ import { setCloseModal, setOpenModal } from "../../../Redux/Slice/HomeSlice";
 import { responseLogin } from "../../../Type/User/User";
 import { userServices } from "../../../Services/UserService";
 import { useAuth } from "../../../Common/Context/AuthContext";
+import { AxiosError } from "axios";
 
 const LoginForm:React.FC = () => {
   const {login}=useAuth();
@@ -37,9 +38,13 @@ const LoginForm:React.FC = () => {
         alert("Đăng nhập thất bại");
       }
     } catch (error) {
-      console.log(error);
+      if (error instanceof AxiosError && error.response) {
+        alert(error.response.data.message);
+        console.log(error.response.data.message);
+      } else {
+        console.log("Đã xảy ra lỗi không xác định:", error);
+      }
     }
-    
   }
   return (
     <>
