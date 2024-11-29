@@ -13,6 +13,22 @@ export const courseService = {
       });
     return courses;
   },
+  getAllCourseByTeacher: async (token: string | null | undefined) => {
+    const courses = await request
+      .get('course/allbycreator',{
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      })
+      .then((res) => {
+        return res.data;
+      })
+      .catch((e) => {
+        return e;
+      });
+    return courses;
+  },
   getCourseById: async (token: string | null | undefined, courseId: number) => {
     const res = await request.get(`/course/${courseId}`, {
       headers: {
