@@ -38,7 +38,7 @@ const RegisterForm:React.FC<RegisterFormProps> = ({setInfoUser}) => {
       dispath(setOpenModal(1));
     }
     else 
-      alert("Đăng ký thất bại");
+      alert("Đăng ký thất bại vui lòng kiểm tra các trường dữ liệu và mật khẩu phải có số, chữ và ký tự đặc biệt");
   }
   const login=()=>{
     dispath(setOpenModal(1));

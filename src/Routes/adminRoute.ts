@@ -55,11 +55,11 @@ export const adminRoute=[
     {
         path: RouterLinkAdmin.CourseDetail,
         element: CourseDetailPage,
-        role: "admin"
+        role: "all"
     },
     {
         path: RouterLinkAdmin.Chapterform,
         element: CreateChapterForm,
-        role: "admin"
+        role: "all"
     }
 ]
