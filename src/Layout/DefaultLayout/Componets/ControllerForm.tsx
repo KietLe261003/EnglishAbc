@@ -42,7 +42,7 @@ const ControllerForm = () => {
 
       <LoginForm />
       <RegisterForm setInfoUser={setInforUser} />
-      {infoUser && <VerifyForm infoUser={infoUser} />}
+      <VerifyForm infoUser={infoUser} />
     </>
   );
 };

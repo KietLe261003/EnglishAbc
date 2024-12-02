@@ -62,6 +62,10 @@ const LoginForm:React.FC = () => {
       console.log(error);
     }
   }
+  const clickForgotPassword=()=>{
+    dispath(setOpenModal(3));
+    console.log(openModal);
+  }
   useEffect(()=>{
     if(tryPassword===5)
     {
@@ -166,12 +170,12 @@ const LoginForm:React.FC = () => {
 
                   <div className="relative sm:flex sm:flex-wrap mt-2 sm:mb-4 text-sm text-center">
                     <div className="flex justify-end w-full">
-                      <a
-                        href="#"
+                      <button
+                      onClick={clickForgotPassword}
                         className="text-[#9E988F] text-sm hover:underline"
                       >
                         Quên mật khẩu?
-                      </a>
+                      </button>
                     </div>
                   </div>
 

@@ -62,5 +62,13 @@ export const userServices = {
   banUser: async(phone: string)=>{
     const res=await request.post('/users/ban',{phone: phone});
     return res.data;
+  },
+  requestVerifyChangePassword: async(email: string)=>{
+    const res=await request.post('/auth/requestresetpassword',{email: email});
+    return res.data;
+  },
+  resetPassword: async(email: string,codeVetify: string,newPassword: string)=>{
+    const res=await request.post('/auth/resetPassword',{email: email,newPassword, codeVetify});
+    return res.data;
   }
 };
