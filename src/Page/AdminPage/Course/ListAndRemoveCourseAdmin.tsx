@@ -34,6 +34,7 @@ const ListAndRemoveCourseAdmin: React.FC = () => {
         setRemoveForm(false);
         getAllCourse();
        } catch (error) {
+        console.log(error);
         alert("Xóa thất bại");
        }
     }

@@ -5,15 +5,8 @@ import { UserLogup } from '../Type/User/UserLogup';
 
 export const userServices = {
   getAllUser: async () => {
-    const response = await request
-      .get<responseUser>('user/getAll')
-      .then((response) => {
-        return response.data;
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-    return response;
+    const response = await request.get('/users/admin/users')
+    return response.data;
   },
   createUser: async (user: UserLogup) => {
     const response = await request

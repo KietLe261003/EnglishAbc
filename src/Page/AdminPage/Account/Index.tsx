@@ -1,11 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AddStatusAdmin from "../../../Components/Button/AddStatusAdmin";
 import TableAdmin from "../../../Components/Table/TableAdmin";
 import { User } from "../../../Type/User/User";
 import CreateForm from "./Components/CreateForm";
 import RemoveForm from "../../../Components/Form/RemoveForm";
+import { userServices } from "../../../Services/UserService";
+import { ResponseDataAllUser} from "../../../Type/User/ResponseUser";
 
 function ManagementAccount() {
+    const [allUser,setAllUser]=useState<T[]>([]);
     const [detailForm,setDetailForm]=useState<boolean>(false);
     const [removeForm,setRemoveForm]=useState<boolean>(false);
     const [userChoose,setUserChoose]=useState<User|null>(null);
@@ -17,16 +20,15 @@ function ManagementAccount() {
           username: "John",
           email: "John@gmail.com",
           password: "12345678",
-          role: "Active",
         };
         return Array.from({ length: 10 }, () => ({ ...defaultItem }));
       });
       
       const column = [
-        "id",
+        "userId",
         "username",
+        "fullname",
         "email",
-        "password",
         "role",
         "Action",
       ];
@@ -43,10 +45,20 @@ function ManagementAccount() {
             setRemoveForm(false);
           }
       }
+    const getAllUser = async ()=>{
+        const res:ResponseDataAllUser=await userServices.getAllUser();
+        const data=res.content.map((item)=>{
+          return {...item,role: item.role.name}
+        })
+        setAllUser(data);
+    }
+    useEffect(()=>{
+      getAllUser();
+    },[])
     return (  
         <div className="w-full">
             <AddStatusAdmin contentAdd="Add User" contentStatus={status} setOpenForm={setDetailForm} />
-            <TableAdmin column={column} data={users} setOpenFormDetail={setDetailForm} setOpenFormRemove={setRemoveForm} setItemChoose={setUserChoose}></TableAdmin>
+            <TableAdmin column={column} data={allUser} setOpenFormDetail={setDetailForm} setOpenFormRemove={setRemoveForm} setItemChoose={setUserChoose}></TableAdmin>
             <CreateForm openForm={detailForm} setOpenForm={setDetailForm} content="Detail User" userChoose={userChoose}/>
             <RemoveForm openForm={removeForm} setOpenForm={setRemoveForm} clickRemove={removeUser} />
         </div>

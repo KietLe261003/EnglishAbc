@@ -6,10 +6,8 @@ import RemoveForm from '../../../Components/Form/RemoveForm';
 import CreateFormDocument from './Components/CreateFormDocument';
 import { documentService } from '../../../Services/DocumentService';
 import { DocumentResponseGetAll } from '../../../Type/Document/DocumentResponse';
-import { useAuth } from '../../../Common/Context/AuthContext';
 
 function ManagementDocument() {
-  const {token}=useAuth();
   const [detailForm, setDetailForm] = useState<boolean>(false);
   const [removeForm, setRemoveForm] = useState<boolean>(false);
   const [documentChoose, setDocumentChoose] = useState<Document | null>(null);
@@ -23,7 +21,7 @@ function ManagementDocument() {
   const removeDocument = async () => {
     if (documentChoose) {
        try {
-        await documentService.deleteDocument(token,documentChoose.docId);
+        await documentService.deleteDocument(documentChoose.docId);
         alert("Xóa thành công");
         setRemoveForm(false);
         getAllDocument();

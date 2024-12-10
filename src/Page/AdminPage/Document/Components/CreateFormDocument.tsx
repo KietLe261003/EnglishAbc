@@ -8,7 +8,6 @@ import InputTypeNumber from "../../../../Components/Input/InputTypeNumber";
 import InputTypeFile from "../../../../Components/Input/InputTypeFile";
 import InputTypeSelect from "../../../../Components/Input/InputTypeSelect";
 import { DocumentRequest } from "../../../../Type/Document/DocumentResponse";
-import { useAuth } from "../../../../Common/Context/AuthContext";
 import { documentService } from "../../../../Services/DocumentService";
 import { uploadFireBase } from "../../../../Util/UploadFile";
 
@@ -22,8 +21,6 @@ interface CreateFormDocumentProps{
 }
 const typeDocumentOption = ['DOCX', 'PDF', 'VIDEO'];
 const CreateFormDocument:React.FC<CreateFormDocumentProps> = ({openForm,setOpenForm,content="ADD NEWS ACCOUNT",documentChoose,setDocumentChoose,getAllDocument}) => {
-  console.log(documentChoose);
-  const {token}=useAuth();
   const [nameDocument, setNameDocument] = useState<string>(documentChoose?.name|| "");
   const [contentDocument, setContentDocument] = useState<string>(documentChoose?.content || "");
   const [description,setDescription]=useState<string>(documentChoose?.description || "");
@@ -35,7 +32,6 @@ const CreateFormDocument:React.FC<CreateFormDocumentProps> = ({openForm,setOpenF
   const [file,setFile]=useState<File | undefined>();
   const closeFormModal = () => {
     setDocumentChoose(null);
-    console.log(price);
     setOpenForm(false);
   };
   const createDocument = async ()=>{
@@ -62,11 +58,11 @@ const CreateFormDocument:React.FC<CreateFormDocumentProps> = ({openForm,setOpenF
       try {
         if(documentChoose)
         {
-          await documentService.updateDocument(token,documentChoose.docId,newDocument);
+          await documentService.updateDocument(documentChoose.docId,newDocument);
         }
         else 
         {
-          await documentService.createDocument(token,newDocument);
+          await documentService.createDocument(newDocument);
         }
         getAllDocument();
         closeFormModal();

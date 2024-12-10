@@ -23,31 +23,16 @@ export const documentService = {
         const res = await request.get(`/document/${lessonId}`);
         return res.data;
     },
-    createDocument: async(token: string | null | undefined,newDocument: DocumentRequest)=>{
-        const res = await request.post(`/document/1`,newDocument,{
-            headers: {
-                Authorization: `Bearer ${token}`,
-                'Content-Type': 'application/json',
-            },
-        })
+    createDocument: async(newDocument: DocumentRequest)=>{
+        const res = await request.post(`/document/1`,newDocument)
         return res.data;
     },
-    deleteDocument: async(token: string | null | undefined,id: number)=>{
-        const res = await request.delete(`/document/1/${id}`,{
-            headers: {
-                Authorization: `Bearer ${token}`,
-                'Content-Type': 'application/json',
-            },
-        })
+    deleteDocument: async(id: number)=>{
+        const res = await request.delete(`/document/1/${id}`);
         return res.data;
     },
-    updateDocument: async(token: string | null | undefined,docId: number,newDocument: DocumentRequest)=>{
-        const res = await request.put(`/document/1/${docId}`,newDocument,{
-            headers: {
-                Authorization: `Bearer ${token}`,
-                'Content-Type': 'application/json',
-            },
-        })
+    updateDocument: async(docId: number,newDocument: DocumentRequest)=>{
+        const res = await request.put(`/document/1/${docId}`,newDocument)
         return res.data;
     },
 }
