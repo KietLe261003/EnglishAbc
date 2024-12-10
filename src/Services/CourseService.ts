@@ -13,6 +13,22 @@ export const courseService = {
       });
     return courses;
   },
+  getAllCourseByTeacher: async (token: string | null | undefined) => {
+    const courses = await request
+      .get('course/allbycreator',{
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      })
+      .then((res) => {
+        return res.data;
+      })
+      .catch((e) => {
+        return e;
+      });
+    return courses;
+  },
   getCourseById: async (token: string | null | undefined, courseId: number) => {
     const res = await request.get(`/course/${courseId}`, {
       headers: {
@@ -27,7 +43,7 @@ export const courseService = {
     Course: CreateCourse,
   ) => {
     const res = await request.post(
-      'http://localhost:8080/api/v1/course',
+      'http://localhost:8080/api/v1/course/admin',
       Course,
       {
         headers: {
@@ -52,7 +68,7 @@ export const courseService = {
     docId: number,
     newCourse: CreateCourse,
   ) => {
-    const res = await request.put(`/course/${docId}`, newCourse, {
+    const res = await request.put(`/course/admin/${docId}`, newCourse, {
       headers: {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',

@@ -1,5 +1,5 @@
 import { createContext, PropsWithChildren, useContext, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { RouterLink } from '../../Util/RouterLink';
 import { AuthResponse, responseInfoUser, User } from '../../Type/User/User';
 import { userServices } from '../../Services/UserService';
@@ -35,7 +35,12 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
     setToken(userData.token);
     navigate(RouterLink.Home);
   };
-  const logout = () => {};
+  const logout = () => {
+    localStorage.removeItem(USER_KEY);
+    localStorage.removeItem(USER_TOKEN);
+    setUser(null);
+    return <Navigate to={RouterLink.Home}/>
+  };
   return (
     <AuthConext.Provider value={{ user, login, logout, token }}>
       {children}

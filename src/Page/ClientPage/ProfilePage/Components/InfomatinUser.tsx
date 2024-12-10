@@ -1,7 +1,10 @@
 import { useAuth } from "../../../../Common/Context/AuthContext";
 
 function InfomationUser() {
-  const {user}=useAuth();
+  const {user,logout}=useAuth();
+  const Logout = ()=>{
+    logout();
+  }
   return (
     <>
       <div className='flex flex-wrap justify-center'>
@@ -19,8 +22,9 @@ function InfomationUser() {
             <button
               className='bg-orange-700 uppercase text-white font-bold hover:shadow-md shadow text-xs px-4 py-2 rounded outline-none focus:outline-none sm:mr-2 mb-1 ease-linear transition-all duration-150'
               type='button'
+              onClick={Logout}
             >
-              Cập nhật thông tin
+              Đăng xuất
             </button>
           </div>
         </div>

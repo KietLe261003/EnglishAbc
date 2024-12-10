@@ -43,14 +43,8 @@ export const userServices = {
       .post<responseLogin>('/auth/login', {
         phone: phoneNumber,
         password: passsword,
-      })
-      .then((res) => {
-        return res.data;
-      })
-      .catch((e) => {
-        return e;
       });
-    return response;
+    return response.data;
   },
   findUserByid: async(token: string)=>{
     const response=await request.get<responseInfoUser>(`/users/profile`,{
@@ -64,5 +58,17 @@ export const userServices = {
       return e;
     })
     return response;
+  },
+  banUser: async(phone: string)=>{
+    const res=await request.post('/users/ban',{phone: phone});
+    return res.data;
+  },
+  requestVerifyChangePassword: async(email: string)=>{
+    const res=await request.post('/auth/requestresetpassword',{email: email});
+    return res.data;
+  },
+  resetPassword: async(email: string,codeVetify: string,newPassword: string)=>{
+    const res=await request.post('/auth/resetPassword',{email: email,newPassword, codeVetify});
+    return res.data;
   }
 };
