@@ -5,11 +5,9 @@ import InputDescription from "../../../../Components/Input/InputDescription";
 import InputTypeBoolean from "../../../../Components/Input/InputSelectTrueFalse";
 import { Document } from "../../../../Type/Document/Document";
 import InputTypeNumber from "../../../../Components/Input/InputTypeNumber";
-import InputTypeFile from "../../../../Components/Input/InputTypeFile";
 import InputTypeSelect from "../../../../Components/Input/InputTypeSelect";
 import { DocumentRequest } from "../../../../Type/Document/DocumentResponse";
 import { documentService } from "../../../../Services/DocumentService";
-import { uploadFireBase } from "../../../../Util/UploadFile";
 
 interface CreateFormDocumentProps{
     openForm: boolean,
@@ -26,31 +24,20 @@ const CreateFormDocument:React.FC<CreateFormDocumentProps> = ({openForm,setOpenF
   const [description,setDescription]=useState<string>(documentChoose?.description || "");
   const [status,setStatus]=useState<boolean>(documentChoose?.status || true);
   const [typeDocument,setTypeDocument]=useState<'PDF' | 'DOC' | 'TXT' | string>('PDF');
-  const [image,setImage]=useState<string>(documentChoose?.images || "");
   const [price,setPrice]=useState<number>(documentChoose?.price || 0);
   const [isFree,setIsFree]=useState<boolean>(documentChoose?.isFree || true);
-  const [file,setFile]=useState<File | undefined>();
   const closeFormModal = () => {
     setDocumentChoose(null);
     setOpenForm(false);
   };
   const createDocument = async ()=>{
-    let fileURL = "";
-    if (file) {
-      try {
-        fileURL = await uploadFireBase(file);
-      } catch (error) {
-        console.log("File upload failed:", error);
-        alert("File upload failed.");
-        return;
-      }
-    }
+
       const newDocument:DocumentRequest={
         name: nameDocument,
         content: contentDocument,
         description,
         url: "",
-        images: fileURL,
+        images: "",
         type: typeDocument,
         status,
         isFree
@@ -78,7 +65,6 @@ const CreateFormDocument:React.FC<CreateFormDocumentProps> = ({openForm,setOpenF
         setNameDocument(documentChoose.name || "");
         setDescription(documentChoose.description || "");
         setContentDocument(documentChoose.content || "");
-        setImage(documentChoose?.images || "");
         setPrice(documentChoose?.price || 0);
         setIsFree(documentChoose?.isFree || true);
         setStatus(documentChoose?.status || true);
@@ -86,7 +72,6 @@ const CreateFormDocument:React.FC<CreateFormDocumentProps> = ({openForm,setOpenF
         setNameDocument("");
         setDescription("");
         setContentDocument("");
-        setImage("");
         setPrice(0);
         setIsFree(true);
         setStatus(true);
@@ -170,11 +155,6 @@ const CreateFormDocument:React.FC<CreateFormDocumentProps> = ({openForm,setOpenF
                     content={description}
                     setContent={setDescription}
                     placeholder='Mô tả về tài liệu học ngắn gọn'
-                  />
-                  <InputTypeFile
-                    image={image}
-                    setImage={setImage}
-                    setFile={setFile}
                   />
                   <div className='flex flex-col gap-4 sm:flex-row justify-end mt-4'>
                     <button

@@ -58,6 +58,7 @@ const ListAndRemoveCourseAdmin: React.FC = () => {
           setOpenFormDetail={setDetailForm}
           setOpenFormRemove={setRemoveForm}
           setItemChoose={setCourseChoose}
+          detail={true}
         />
       }
       <RemoveForm

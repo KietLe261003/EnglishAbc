@@ -23,6 +23,6 @@ export enum RouterLinkAdmin {
     RegisteredCourse="registeredCourse",
     Teacher="teacher",
     Feedback="feedback",
-    CourseDetail ="coursedetail",
+    CourseDetail ="coursedetail/:id",
     Chapterform = "chapterform"
 }

@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import CourseRoadMap from "./CourseRoadMap";
 
 const CourseDetailPage = () => {
 
@@ -66,23 +67,7 @@ const CourseDetailPage = () => {
           Tạo Chương
         </button>
       </div>
-
-      <div className='mt-4 bg-white shadow-md rounded-lg p-4'>
-        <div className='flex justify-between items-center'>
-          <div>
-            <h4 className='text-lg font-semibold'>Chương 1</h4>
-            <p>abcdefg f*** in the night</p>
-          </div>
-          <div className='flex space-x-2'>
-            <button className='bg-yellow-500 text-white py-1 px-4 rounded'>
-              Sửa
-            </button>
-            <button className='bg-red-500 text-white py-1 px-4 rounded'>
-              Xóa
-            </button>
-          </div>
-        </div>
-      </div>
+      <CourseRoadMap></CourseRoadMap>
     </div>
   );
 };
