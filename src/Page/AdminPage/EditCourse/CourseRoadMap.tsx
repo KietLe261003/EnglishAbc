@@ -5,12 +5,16 @@ import { faChalkboard } from '@fortawesome/free-solid-svg-icons';
 import { Document } from "../../../Type/Document/Document";
 import { documentService } from "../../../Services/DocumentService";
 import { DocumentResponseGetAll } from "../../../Type/Document/DocumentResponse";
+import UpdateChapterForm from "./Components/UpdateChapterForm";
+import { Button } from "@chakra-ui/react";
 interface CourseRoadMapProps{
+  courseId: number,
   idRoadMap: number,
   nameRoadMap: string,
   descriptionRoadMap: string,
+  getAllLesson: ()=>Promise<void>
 }
-const CourseRoadMap:React.FC<CourseRoadMapProps>=({idRoadMap,nameRoadMap,descriptionRoadMap})=> {
+const CourseRoadMap:React.FC<CourseRoadMapProps>=({courseId,idRoadMap,nameRoadMap,descriptionRoadMap,getAllLesson})=> {
     const [isDropdownOpen, setDropdownOpen] = useState<boolean>(false);
     const [listDocument, setListDocument] = useState<Document[]>([]);
     const toggleDropdown = () => {
@@ -19,9 +23,6 @@ const CourseRoadMap:React.FC<CourseRoadMapProps>=({idRoadMap,nameRoadMap,descrip
     const getAllDocumentByLesson= async ()=>{
       const res:DocumentResponseGetAll=await documentService.getDocumentByLesson(idRoadMap);
       setListDocument(res.content);
-    }
-    const update = ()=>{
-      alert("Haha");
     }
     useEffect(()=>{
       getAllDocumentByLesson();
@@ -45,12 +46,8 @@ const CourseRoadMap:React.FC<CourseRoadMapProps>=({idRoadMap,nameRoadMap,descrip
             </div>
           </div>
           <div className='flex flex-row mr-4 justify-center items-center gap-3'>
-            <button onClick={update} className='bg-yellow-500 text-white py-1 px-4 rounded'>
-              Sửa
-            </button>
-            <button className='bg-red-500 text-white py-1 px-4 rounded'>
-              Xóa
-            </button>
+            <UpdateChapterForm courseId={courseId} idRoadMap={idRoadMap} name={nameRoadMap} content={descriptionRoadMap} getAllLesson={getAllLesson}/>
+            <Button colorScheme='red'>Xóa</Button>
             <IconArrowRight color='black'></IconArrowRight>
           </div>
         </button>

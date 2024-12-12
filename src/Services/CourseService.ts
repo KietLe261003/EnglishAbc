@@ -13,13 +13,8 @@ export const courseService = {
       });
     return courses;
   },
-  getCourseById: async (token: string | null | undefined, courseId: number) => {
-    const res = await request.get(`/course/${courseId}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json',
-      },
-    });
+  getCourseById: async (courseId: number) => {
+    const res = await request.get(`/course/${courseId}`);
     return res.data;
   },
   createCourse: async (

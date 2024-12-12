@@ -5,11 +5,9 @@ import ButtonDetail from "./Components/ButtonDetail";
 import MainContent from "./Components/MainContent";
 import { useEffect, useState } from "react";
 import { courseService } from "../../../Services/CourseService";
-import { useAuth } from "../../../Common/Context/AuthContext";
 import { Course, courseResponseId} from "../../../Type/Course/Course";
 
 function DetailCourseOfflinePage() {
-    const {token}=useAuth();
     const {id}=useParams();
     const courseId=Number(id);
     const [currentContent,setCurrentContent]=useState<number>(1);
@@ -17,7 +15,7 @@ function DetailCourseOfflinePage() {
     const navigate=useNavigate();
     const getCourse = async ()=>{
       try {
-        const res:courseResponseId = await courseService.getCourseById(token,courseId);
+        const res:courseResponseId = await courseService.getCourseById(courseId);
         setCourse(res.result);
         console.log(course);
       } catch (error) {
