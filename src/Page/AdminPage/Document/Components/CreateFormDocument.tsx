@@ -4,7 +4,6 @@ import InputTypeString from "../../../../Components/Input/InputTypeString";
 import InputDescription from "../../../../Components/Input/InputDescription";
 import InputTypeBoolean from "../../../../Components/Input/InputSelectTrueFalse";
 import { Document } from "../../../../Type/Document/Document";
-import InputTypeNumber from "../../../../Components/Input/InputTypeNumber";
 import InputTypeSelect from "../../../../Components/Input/InputTypeSelect";
 import { DocumentRequest } from "../../../../Type/Document/DocumentResponse";
 import { documentService } from "../../../../Services/DocumentService";
@@ -16,22 +15,21 @@ interface CreateFormDocumentProps{
     documentChoose?: Document | null,
     setDocumentChoose: React.Dispatch<React.SetStateAction<Document | null>>,
     getAllDocument: () => Promise<void>;
+    lessonId?: number;
 }
 const typeDocumentOption = ['DOCX', 'PDF', 'VIDEO'];
-const CreateFormDocument:React.FC<CreateFormDocumentProps> = ({openForm,setOpenForm,content="ADD NEWS ACCOUNT",documentChoose,setDocumentChoose,getAllDocument}) => {
+const CreateFormDocument:React.FC<CreateFormDocumentProps> = ({openForm,setOpenForm,lessonId,content="ADD NEWS ACCOUNT",documentChoose,setDocumentChoose,getAllDocument}) => {
   const [nameDocument, setNameDocument] = useState<string>(documentChoose?.name|| "");
   const [contentDocument, setContentDocument] = useState<string>(documentChoose?.content || "");
   const [description,setDescription]=useState<string>(documentChoose?.description || "");
   const [status,setStatus]=useState<boolean>(documentChoose?.status || true);
   const [typeDocument,setTypeDocument]=useState<'PDF' | 'DOC' | 'TXT' | string>('PDF');
-  const [price,setPrice]=useState<number>(documentChoose?.price || 0);
   const [isFree,setIsFree]=useState<boolean>(documentChoose?.isFree || true);
   const closeFormModal = () => {
     setDocumentChoose(null);
     setOpenForm(false);
   };
   const createDocument = async ()=>{
-
       const newDocument:DocumentRequest={
         name: nameDocument,
         content: contentDocument,
@@ -43,13 +41,33 @@ const CreateFormDocument:React.FC<CreateFormDocumentProps> = ({openForm,setOpenF
         isFree
       }
       try {
-        if(documentChoose)
+        if(lessonId)
         {
-          await documentService.updateDocument(documentChoose.docId,newDocument);
+          if(documentChoose)
+          {
+            try {
+              await documentService.updateDocumentByLessonId(lessonId,documentChoose.docId,newDocument);
+            } catch (error) {
+              console.log(error);
+              alert("Thêm thất bại");
+            }
+          }
+          else
+          {
+            try {
+              await documentService.createDocumentByLessonId(lessonId,newDocument);
+            } catch (error) {
+              console.log(error);
+              alert("Thêm thất bại");
+            }
+          }
         }
-        else 
+        else
         {
-          await documentService.createDocument(newDocument);
+          if(documentChoose)
+            await documentService.updateDocument(documentChoose.docId,newDocument);
+          else
+            await documentService.createDocument(newDocument);
         }
         getAllDocument();
         closeFormModal();
@@ -65,14 +83,12 @@ const CreateFormDocument:React.FC<CreateFormDocumentProps> = ({openForm,setOpenF
         setNameDocument(documentChoose.name || "");
         setDescription(documentChoose.description || "");
         setContentDocument(documentChoose.content || "");
-        setPrice(documentChoose?.price || 0);
         setIsFree(documentChoose?.isFree || true);
         setStatus(documentChoose?.status || true);
       } else {
         setNameDocument("");
         setDescription("");
         setContentDocument("");
-        setPrice(0);
         setIsFree(true);
         setStatus(true);
       }
@@ -142,14 +158,6 @@ const CreateFormDocument:React.FC<CreateFormDocumentProps> = ({openForm,setOpenF
                       setContent={setTypeDocument}
                     />
                   </div>
-                  {isFree && (
-                    <InputTypeNumber
-                      title='Giá tiền'
-                      content={price}
-                      setContent={setPrice}
-                      placeholder='Nhập giá tiền của tài liệu'
-                    />
-                  )}
                   <InputDescription
                     title='Nội dung của tài liệu'
                     content={description}

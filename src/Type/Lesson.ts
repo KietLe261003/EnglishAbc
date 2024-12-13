@@ -43,6 +43,8 @@ export interface ResponseLessonApi{
   result: Lesson
 }
 export interface CreateLessonApi{
+  lessonIndex: number,
   name: string,
-  content: string
+  content: string,
+  status: boolean
 }

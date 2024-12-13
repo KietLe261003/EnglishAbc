@@ -15,19 +15,23 @@ import {
   interface UpdateChapterFormProps{
     courseId: number,
     idRoadMap: number,
+    indexLesson: number,
     name: string,
     content: string,
     getAllLesson: ()=>Promise<void>
   }
-  const UpdateChapterForm:React.FC<UpdateChapterFormProps> = ({courseId,idRoadMap,name,content,getAllLesson}) => {
+  const UpdateChapterForm:React.FC<UpdateChapterFormProps> = ({courseId,idRoadMap,indexLesson,name,content,getAllLesson}) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
+    const [lessonIndex,setLessonIndex]=useState<number>(indexLesson);
     const [chapterName, setChapterName] = useState<string>(name?name:'');
     const [chapterDescription, setChapterDescription] = useState<string>(content? content :'');
     const clickSave = async ()=>{
       try {
         const res: ResponseLessonApi = await lessonService.updateLesson(courseId,idRoadMap,{
+          lessonIndex: lessonIndex? lessonIndex : 0,
           name: chapterName,
-          content: chapterDescription
+          content: chapterDescription,
+          status: true
         });
         console.log(res);
         alert("Cập nhật thành công");
@@ -42,9 +46,9 @@ import {
       <div>
         {/* Nút mở Modal */}
         <Button onClick={onOpen} colorScheme='yellow'>
-           Sửa
+          Sửa
         </Button>
-  
+
         {/* Modal */}
         <Modal isOpen={isOpen} onClose={onClose}>
           <ModalOverlay />
@@ -53,6 +57,24 @@ import {
             <ModalCloseButton />
             <ModalBody>
               <form className=' py-4'>
+                <div className='mb-4'>
+                  <label
+                    htmlFor='number-input'
+                    className='block mb-2 text-sm font-medium text-gray-900 dark:text-white'
+                  >
+                    Vị trí của chương:
+                  </label>
+                  <input
+                    type='number'
+                    id='number-input'
+                    aria-describedby='helper-text-explanation'
+                    className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+                    placeholder='Vị trí của chương'
+                    value={lessonIndex}
+                    onChange={(e) => setLessonIndex(Number(e.target.value))}
+                    required
+                  />
+                </div>
                 <div className='mb-4'>
                   <label
                     htmlFor='chapterName'
@@ -65,8 +87,8 @@ import {
                     id='chapterName'
                     placeholder='Tên chương'
                     className='mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500'
-                    value={chapterName} 
-                    onChange={(e) => setChapterName(e.target.value)} 
+                    value={chapterName}
+                    onChange={(e) => setChapterName(e.target.value)}
                   />
                 </div>
                 <div className='mb-6'>
@@ -80,8 +102,8 @@ import {
                     id='chapterDescription'
                     placeholder='Mô tả ngắn gọn về chương'
                     className='mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500'
-                    value={chapterDescription} 
-                    onChange={(e) => setChapterDescription(e.target.value)} 
+                    value={chapterDescription}
+                    onChange={(e) => setChapterDescription(e.target.value)}
                   ></textarea>
                 </div>
               </form>

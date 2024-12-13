@@ -17,13 +17,7 @@ export const lessonService={
         return res.data;
     },
     updateLesson: async(idCourse: number,idRoadMap: number,data:CreateLessonApi)=>{
-        const dataCreate={
-            lessonIndex: 3,
-            name: data.name,
-            content: data.content,
-            status: true
-        }
-        const res = await request.put(`/lesson/${idCourse}/${idRoadMap}`,dataCreate);
+        const res = await request.put(`/lesson/${idCourse}/${idRoadMap}`,data);
         return res.data;
     },
     

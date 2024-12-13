@@ -35,4 +35,12 @@ export const documentService = {
         const res = await request.put(`/document/1/${docId}`,newDocument)
         return res.data;
     },
+    createDocumentByLessonId: async(lessonId: number,newDocument: DocumentRequest)=>{
+        const res = await request.post(`/document/${lessonId}`,newDocument)
+        return res.data;
+    },
+    updateDocumentByLessonId: async(lessonId: number,docId: number,newDocument: DocumentRequest)=>{
+        const res = await request.put(`/document/${lessonId}/${docId}`,newDocument)
+        return res.data;
+    },
 }

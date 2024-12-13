@@ -98,6 +98,7 @@ const CourseDetailPage = () => {
           key={index}
           courseId={Number(id)}
           idRoadMap={item.lessonId}
+          indexLesson={item.lessonIndex}
           nameRoadMap={item.name}
           descriptionRoadMap={item.content}
           getAllLesson={getAllLesson}
