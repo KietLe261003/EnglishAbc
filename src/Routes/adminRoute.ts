@@ -8,9 +8,7 @@ import ManagementResgiteredCourse from "../Page/AdminPage/RegisteredCourse/Index
 import ManagementTeacher from "../Page/AdminPage/Teacher/Index";
 import { RouterLinkAdmin } from "../Util/RouterLink";
 import CourseDetailPage from "../Page/AdminPage/EditCourse/CourseDetailPage";
-
-
-import CreateChapterForm from "../Page/AdminPage/EditCourse/Components/CreateChapterForm";
+import ClassOffline from "../Page/AdminPage/ClassOffline/Index";
 export const adminRoute=[
     {
         path: RouterLinkAdmin.Home,
@@ -48,10 +46,8 @@ export const adminRoute=[
         path: RouterLinkAdmin.CourseDetail,
         element: CourseDetailPage
     },
-
-
     {
-        path: RouterLinkAdmin.Chapterform,
-        element: CreateChapterForm
+        path: RouterLinkAdmin.ClassOffline,
+        element: ClassOffline
     }
 ]
