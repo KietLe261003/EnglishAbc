@@ -1,10 +1,11 @@
 import Logo from "../../../Assets/Image/Vector 8.svg";
 import { siteMenuAdmin } from "../../../Common/Config/SiteMenuAdmin";
+import { useAuth } from "../../../Common/Context/AuthContext";
 import { IconSetting } from "../../../Common/Icon/Icon";
 import { IconLight } from "../../../Common/Icon/IconSlideBarAdmin";
 import ItemNavBar from "./ItemNavBar";
 function SideBarAdmin() {
-  
+  const {user}=useAuth();
   return (
     <div
       id='menu'
@@ -19,6 +20,21 @@ function SideBarAdmin() {
       </div>
       <div id='menu' className='flex flex-col space-y-2 my-5'>
         {siteMenuAdmin.map((item, index) => {
+          if(item.role==="admin" &&user?.role?.roleId===2)
+          {
+              return (
+                <ItemNavBar
+                  key={index}
+                  content={item.content}
+                  icon={item.icon}
+                  href={item.href}
+                ></ItemNavBar>
+              );
+          }
+          else if(item.role==="admin")
+          {
+            return null;
+          }
           return (
             <ItemNavBar
               key={index}

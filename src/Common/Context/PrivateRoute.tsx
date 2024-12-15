@@ -7,7 +7,7 @@ interface Props {
 }
 const PrivateRoute : React.FC<Props>=()=> {
     const {user}=useAuth();
-    if(user?.role?.roleId !== 2)
+    if(user?.role?.roleId !== 2 && user?.role?.roleId!==3)
         return <Navigate to={RouterLink.Home}/>
     return <Outlet/>
     
