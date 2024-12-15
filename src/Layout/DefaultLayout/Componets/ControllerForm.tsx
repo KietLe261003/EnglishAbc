@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import LoginForm from '../../../Components/Form/LoginForm/LoginForm';
 import RegisterForm from '../../../Components/Form/RegisterForm/RegisterForm';
 import VerifyForm from '../../../Components/Form/VerifyForm/VerifyForm';
@@ -19,9 +19,6 @@ const ControllerForm = () => {
     dispath(setOpenModal(1));
     console.log(openModal);
   };
-  useEffect(()=>{
-    console.log(user);
-  },[user])
   return (
     <>
       {user ? (  

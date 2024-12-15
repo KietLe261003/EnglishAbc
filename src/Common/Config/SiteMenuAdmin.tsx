@@ -15,12 +15,6 @@ export const siteMenuAdmin = [
       role: "admin"
     },
     {
-      content: "Documents",
-      icon: <IconCourse/>,
-      href: RouterLinkAdmin.Document,
-      role: "all"
-    },
-    {
       content: 'Certificate Managerment',
       icon: <IconCertificate/>,
       href: RouterLinkAdmin.Certificate,
@@ -31,6 +25,16 @@ export const siteMenuAdmin = [
       icon: <IconCourse/>,
       href: RouterLinkAdmin.Course,
       role: "all"
+    },
+    {
+      content: 'ClassOffline',
+      icon: <IconCourse/>,
+      href: RouterLinkAdmin.ClassOffline,
+    },
+    {
+      content: "Documents",
+      icon: <IconCourse/>,
+      href: RouterLinkAdmin.Document
     },
     {
       content: 'Registered Course',

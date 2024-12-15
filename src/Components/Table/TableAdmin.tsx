@@ -5,7 +5,7 @@ import {
   IconTrash,
 } from '../../Common/Icon/Icon';
 import Pagination from './Pagination';
-import { useNavigate } from 'react-router-dom'; // 
+import { useNavigate } from 'react-router-dom'; //
 
 interface TableAdminProps<T> {
   column: string[];
@@ -13,6 +13,7 @@ interface TableAdminProps<T> {
   setOpenFormDetail: React.Dispatch<React.SetStateAction<boolean>>;
   setOpenFormRemove: React.Dispatch<React.SetStateAction<boolean>>;
   setItemChoose: React.Dispatch<React.SetStateAction<T | null>>;
+  detail?: boolean;
 }
 
 const TableAdmin = <T,>({
@@ -21,8 +22,8 @@ const TableAdmin = <T,>({
   setOpenFormDetail,
   setOpenFormRemove,
   setItemChoose,
+  detail,
 }: TableAdminProps<T>) => {
-
   const navigate = useNavigate();
   return (
     <>
@@ -52,15 +53,17 @@ const TableAdmin = <T,>({
                 {column.map((field) => {
                   return field === 'Action' ? (
                     <td className='px-4 py-3 text-center'>
-                      <button
-                        className='m-[15px] '
-                        onClick={() => {
-                          navigate('/admin/coursedetail');
-                          setItemChoose(item);
-                        }}
-                      >
-                        <IconDetailCourse />
-                      </button>
+                      {detail === true && (
+                        <button
+                          className='m-[15px] '
+                          onClick={() => {
+                            navigate(`/admin/coursedetail/${item?.courseId}`);
+                            setItemChoose(item);
+                          }}
+                        >
+                          <IconDetailCourse />
+                        </button>
+                      )}
                       <button
                         className='m-[15px]'
                         onClick={() => {

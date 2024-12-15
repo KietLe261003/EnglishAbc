@@ -38,3 +38,13 @@ export interface ApiResponseLesson {
   numberOfElements: number;
   empty: boolean;
 }
+export interface ResponseLessonApi{
+  code: number,
+  result: Lesson
+}
+export interface CreateLessonApi{
+  lessonIndex: number,
+  name: string,
+  content: string,
+  status: boolean
+}
