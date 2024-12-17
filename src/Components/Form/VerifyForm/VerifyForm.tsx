@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { IconWindowClose } from "../../../Common/Icon/Icon";
 import CardTitleComponent from "../CardTitleComponent";
 import InputOtp from "./Components/InputOtp";
@@ -6,19 +6,46 @@ import Button from "../../Button/Button";
 import { UserLogup } from "../../../Type/User/UserLogup";
 import { userServices } from "../../../Services/UserService";
 import { useAppDispatch, useAppSelector } from "../../../Hooks/Store";
-import { setCloseModal } from "../../../Redux/Slice/HomeSlice";
+import { setCloseModal, setOpenModal } from "../../../Redux/Slice/HomeSlice";
+import InputTypeString from "../../Input/InputTypeString";
 interface VerifyFormProps{
   infoUser: UserLogup | null
 }
-const VerifyForm:React.FC<VerifyFormProps> = ({infoUser}) => {
+const VerifyForm:React.FC<VerifyFormProps> = () => {
+  const [email,setEmail]=useState<string>("");
+  const [newPassword,setNewPassword]=useState<string>("");
+  const [otp, setOtp] = useState<string[]>(Array(6).fill(""));
   const {openModal}=useAppSelector(state=>state.counter);
   const dispath=useAppDispatch();
   const closeForm = () => {
     dispath(setCloseModal());
   };
+  const clickRequestVerify = async ()=>{
+    try {
+      const res = await userServices.requestVerifyChangePassword(email);
+      alert(res?.result);
+    } catch (error) {
+      console.log(error);
+      alert("Gửi mail thất bại");
+    }
+  }
   const clickVerify = async ()=>{
-    const response = await userServices.verifyUser(infoUser);
-    console.log(response);
+    try {
+      const response = await userServices.resetPassword(email,otp.join(""),newPassword);
+      if(response?.result==="Change your password success")
+      {
+        alert(response?.result);
+        setOtp(Array(6).fill(""));
+        setEmail("");
+        setNewPassword("");
+        dispath(setOpenModal(1));
+      }
+      
+      
+    } catch (error) {
+      console.log(error);
+    }
+    
   }
   return (
     <>
@@ -36,12 +63,15 @@ const VerifyForm:React.FC<VerifyFormProps> = ({infoUser}) => {
               {/* Auth Card */}
               <div>
                 <CardTitleComponent content="Để lại thông tin" description="G-Easy sẽ liên hệ với bạn sớm nhất có thể"/>
-                <form className="mt-10" method="POST">
-                  <InputOtp></InputOtp>
+                <div className="mt-10" >
+                  <InputTypeString title="Email" content={email} setContent={setEmail} placeholder="Nhập email để nhận mã otp"></InputTypeString>
+                  <Button onClick={clickRequestVerify}>Nhận mã otp</Button>
+                  <InputOtp otp={otp} setOtp={setOtp}></InputOtp>
+                  <InputTypeString title="Mật khẩu mới" content={newPassword} setContent={setNewPassword} placeholder="Nhập mật khẩu mới"></InputTypeString>
                   <div className=" flex justify-center">
                     <Button onClick={clickVerify}>Xác nhận</Button>
                   </div>
-                </form>
+                </div>
               </div>
             </div>
           </div>

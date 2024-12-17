@@ -12,39 +12,48 @@ import ClassOffline from "../Page/AdminPage/ClassOffline/Index";
 export const adminRoute=[
     {
         path: RouterLinkAdmin.Home,
-        element: HomePageAdmin
+        element: HomePageAdmin,
+        role: "admin"
     },
     {
         path: RouterLinkAdmin.Account,
-        element: ManagementAccount
+        element: ManagementAccount,
+        role: "admin"
     },
     {
         path: RouterLinkAdmin.Course,
-        element: ListAndRemoveCourseAdmin
+        element: ListAndRemoveCourseAdmin,
+        role: "all"
     },
     {
         path: RouterLinkAdmin.Document,
-        element: ManagementDocument
+        element: ManagementDocument,
+        role: "all"
     },
     {
         path: RouterLinkAdmin.Certificate,
-        element: ManagementCertificate
+        element: ManagementCertificate,
+        role: "admin"
     },
     {
         path: RouterLinkAdmin.RegisteredCourse,
-        element: ManagementResgiteredCourse
+        element: ManagementResgiteredCourse,
+        role: "admin"
     },
     {
         path: RouterLinkAdmin.Teacher,
-        element: ManagementTeacher
+        element: ManagementTeacher,
+        role: "admin"
     },
     {
         path: RouterLinkAdmin.Feedback,
-        element: ManagementFeedBack
+        element: ManagementFeedBack,
+        role: "admin"
     },
     {
         path: RouterLinkAdmin.CourseDetail,
-        element: CourseDetailPage
+        element: CourseDetailPage,
+        role: "all"
     },
     {
         path: RouterLinkAdmin.ClassOffline,

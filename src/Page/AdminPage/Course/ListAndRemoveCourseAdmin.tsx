@@ -8,7 +8,7 @@ import { courseService } from '../../../Services/CourseService';
 import { useAuth } from '../../../Common/Context/AuthContext';
 
 const ListAndRemoveCourseAdmin: React.FC = () => {
-  const {token}=useAuth();
+  const {token,user}=useAuth();
   const [detailForm, setDetailForm] = useState<boolean>(false);
   const [removeForm, setRemoveForm] = useState<boolean>(false);
   const [courseChoose, setCourseChoose] = useState<Course | null>(null);
@@ -23,8 +23,16 @@ const ListAndRemoveCourseAdmin: React.FC = () => {
   ];
   const status = ['Status', 'Miễn Phí', 'Học phí', 'Số lượng'];
   const getAllCourse = async ()=>{
-    const course:courseResponse=await courseService.getAllCourse();
-    setCourses(course.content);
+    if(user?.role?.roleId===3)
+    {
+      const course:courseResponse=await courseService.getAllCourseByTeacher(token);
+      setCourses(course.content);
+    }
+    else
+    {
+      const course:courseResponse=await courseService.getAllCourse();
+      setCourses(course.content);
+    }
   }
   const removeDocument = async () => {
     if (courseChoose) {

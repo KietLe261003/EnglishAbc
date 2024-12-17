@@ -1,7 +1,10 @@
-import React, { useRef, useState, KeyboardEvent, ChangeEvent, FocusEvent, ClipboardEvent } from "react";
-
-const InputOtp: React.FC = () => {
-  const [otp, setOtp] = useState<string[]>(Array(6).fill("")); 
+import React, { useRef, KeyboardEvent, ChangeEvent, FocusEvent, ClipboardEvent } from "react";
+interface OTPProps {
+  otp: string[];
+  setOtp: React.Dispatch<React.SetStateAction<string[]>>;
+}
+const InputOtp: React.FC<OTPProps> = ({otp,setOtp}) => {
+  
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]); 
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
