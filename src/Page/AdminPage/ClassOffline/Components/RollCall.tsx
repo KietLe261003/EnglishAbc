@@ -1,5 +1,5 @@
 import { Select, Tooltip } from "@chakra-ui/react";
-import ListStudent from "./ListStudent";
+import ModalCommentStudent from "./Modal/ModalCommentStudent";
 
 function RollCall() {
     const listHomeWork = Array.from({ length: 5 });
@@ -39,7 +39,7 @@ function RollCall() {
         </div>
       </div>
       <div>
-        {listHomeWork.map((item) => (
+        {listHomeWork.map(() => (
           <div className='mx-auto bg-slate-100 rounded-xl shadow-md overflow-hidden my-5 flex justify-between'>
             <div className='md:flex'>
               <div className='p-8'>
@@ -53,9 +53,7 @@ function RollCall() {
               </div>
             </div>
             <div className='flex flex-col px-8 gap-3'>
-              <button className='mt-5 px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500'>
-                Nhận xét
-              </button>
+              <ModalCommentStudent></ModalCommentStudent>
               <Tooltip label='Điểm danh' placement='top'>
                 <Select>
                     <option value='option1'>Có mặt</option>
