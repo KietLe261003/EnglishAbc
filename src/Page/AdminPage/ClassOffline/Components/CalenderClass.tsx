@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import CalendarComponent from '../../../../Components/Calender/Calender';
 import ProfileCard from '../../../../Components/CardItem/ProfileCard';
-import InputTypeSelect from '../../../../Components/Input/InputTypeSelect';
 
 function CalenderClass() {
   const [dataCalender, setDataCalender] = useState<number[]>([
