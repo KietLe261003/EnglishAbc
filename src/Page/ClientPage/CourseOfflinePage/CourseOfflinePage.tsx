@@ -8,7 +8,9 @@ import { ListDocumentObject } from '../../../Type/Object/ListDocumentObject';
 
 function CourseOfflinePage() {
   const [checkAll, setCheckAll] = useState<boolean>(true);
-  const [listDocument,setListDocument]=useState<ListDocumentObject[] | null>(null);
+  const [listDocument, setListDocument] = useState<ListDocumentObject[] | null>(
+    null,
+  );
   const [filterType, setFilterType] = useState<string>('');
   const [filterInProgess, setFilterInProgess] = useState<string>('');
   const [filterTeacher, setFilterTeacher] = useState<string>('');
@@ -17,31 +19,33 @@ function CourseOfflinePage() {
   console.log(filterInProgess); //Lọc dữ liệu tiến độ hoàn thành
   console.log(filterTeacher); //Lọc dữ liệu giáo viên
   console.log(filterStatus); //Lọc dữ liệu trạng thái
-  const getAllCourse= async ()=>{
-    const courses:courseResponse= await courseService.getAllCourse();
-    const listCourseInterface:ListDocumentObject[]= courses.content.map((item)=>{
-        const course:ListDocumentObject={
+  const getAllCourse = async () => {
+    const courses: courseResponse = await courseService.getAllCourse();
+    const listCourseInterface: ListDocumentObject[] = courses.content.map(
+      (item) => {
+        const course: ListDocumentObject = {
           id: item.courseId,
           name: item.name,
           description: item.description,
-          buttonContent: "Xem chi tiết",
+          buttonContent: 'Xem chi tiết',
           price: item.fee,
-          type: "course"
-        }
+          type: 'course',
+        };
         return course;
-    })
+      },
+    );
     setListDocument(listCourseInterface);
-  }
-  useEffect(()=>{
+  };
+  useEffect(() => {
     getAllCourse();
-  },[])
+  }, []);
   return (
     <div className='flex flex-col gap-3'>
       <BannerMedium
         title='Khóa học offline'
         description='Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. '
       />
-      <div className='min-h-[45px]'></div>
+      <div className='min-h-[45px] '></div>
       <Fillter
         checkAll={checkAll}
         setCheckAll={setCheckAll}
@@ -53,10 +57,12 @@ function CourseOfflinePage() {
         contentFilterInProgess='Đã thanh toán'
       ></Fillter>
       <div className='min-h-[45px]'></div>
-      {
-        listDocument && <ListDocument checkAll={checkAll} listData={listDocument}></ListDocument>
-      }
-      
+      {listDocument && (
+        <ListDocument
+          checkAll={checkAll}
+          listData={listDocument}
+        ></ListDocument>
+      )}
     </div>
   );
 }
