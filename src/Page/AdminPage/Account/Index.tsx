@@ -15,7 +15,7 @@ function ManagementAccount() {
 
       const [users, setUsers] = useState<User[]>(() => {
         const defaultItem: User = {
-          id: "#1234",
+          userId: "#1234",
           fullname: "John wick",
           username: "John",
           email: "John@gmail.com",
@@ -40,7 +40,7 @@ function ManagementAccount() {
       const removeUser = ()=>{
           if(userChoose)
           {
-            const userData= users.filter(item=>item.id===userChoose.id);
+            const userData= users.filter(item=>item.userId===userChoose.userId);
             setUsers(userData);
             setRemoveForm(false);
           }
@@ -48,7 +48,7 @@ function ManagementAccount() {
     const getAllUser = async ()=>{
         const res:ResponseDataAllUser=await userServices.getAllUser();
         const data=res.content.map((item)=>{
-          return {...item,role: item.role.name}
+          return {...item,role: item.role?.name}
         })
         setAllUser(data);
     }
@@ -59,7 +59,7 @@ function ManagementAccount() {
         <div className="w-full">
             <AddStatusAdmin contentAdd="Add User" contentStatus={status} setOpenForm={setDetailForm} />
             <TableAdmin column={column} data={allUser} setOpenFormDetail={setDetailForm} setOpenFormRemove={setRemoveForm} setItemChoose={setUserChoose}></TableAdmin>
-            <CreateForm openForm={detailForm} setOpenForm={setDetailForm} content="Detail User" userChoose={userChoose}/>
+            <CreateForm openForm={detailForm} setOpenForm={setDetailForm} content="User" userChoose={userChoose} setUserChoose={setUserChoose}/>
             <RemoveForm openForm={removeForm} setOpenForm={setRemoveForm} clickRemove={removeUser} />
         </div>
     );
