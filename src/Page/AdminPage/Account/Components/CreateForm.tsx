@@ -1,35 +1,72 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { IconWindowClose } from "../../../../Common/Icon/Icon";
 import InputTypeString from "../../../../Components/Input/InputTypeString";
-import InputDescription from "../../../../Components/Input/InputDescription";
 import { User } from "../../../../Type/User/User";
+import { UserLogup } from "../../../../Type/User/UserLogup";
+import { responseUser } from "../../../../Type/User/ResponseUser";
+import { userServices } from "../../../../Services/UserService";
+import InputTypeSelect from "../../../../Components/Input/InputTypeSelect";
 
 
 interface CreateFormProps{
     openForm: boolean,
     setOpenForm: React.Dispatch<React.SetStateAction<boolean>>,
     content?: string,
-    userChoose?: User | null
+    userChoose?: User | null,
+    setUserChoose?: React.Dispatch<React.SetStateAction<User | null>>,
 }
-const CreateForm:React.FC<CreateFormProps> = ({openForm,setOpenForm,content="ADD NEWS ACCOUNT",userChoose}) => {
+const CreateForm:React.FC<CreateFormProps> = ({openForm,setOpenForm,content="ADD NEWS ACCOUNT",userChoose,setUserChoose}) => {
+  const option =[
+    "Guest",
+    "Admin",
+    "Teacher"
+  ]
   const [nameAccount, setNameAccount] = useState<string>(userChoose?.fullname || "");
   const [email, setEmail] = useState<string>(userChoose?.email || "");
   const [userName, setUserName] = useState<string>(userChoose?.username || "");
   const [phoneNumber, setPhoneNumber] = useState<string>(userChoose?.phone || "");
-  const [password, setPassword] = useState<string>(userChoose?.password || "");
-  const [description,setDescription]=useState<string>(userChoose?.desciption || "");
+  const [role,setRole]=useState<string>(userChoose?.role?.name || "");
   
   const closeFormModal = () => {
     setOpenForm(false);
+    setNameAccount("");
+    setEmail("");
+    setUserName("");
+    setPhoneNumber("");
+    if(userChoose && setUserChoose)
+      setUserChoose(null);
   };
+  const submitFormModal= async()=>{
+    if(!userName || !nameAccount || !email || !phoneNumber)
+    {
+      alert("Điền đầy đủ thông tin");
+    }
+    {
+      const newUser:UserLogup={
+            username: userName,
+            fullname: nameAccount,
+            email: email,
+            phone: phoneNumber,
+            password: "Abc@1234567",
+            description: ""
+          }
+          const responuser:responseUser = await userServices.createUser(newUser);
+          if (responuser.code === 0) {
+            alert("Đăng ký thành công");
+            closeFormModal();
+          } else
+            alert(
+              'Đăng ký thất bại vui lòng kiểm tra các trường dữ liệu và mật khẩu phải có số, chữ và ký tự đặc biệt',
+          );
+    }
+  }
   useEffect(() => {
     if (userChoose) {
       setNameAccount(userChoose.fullname || "");
       setEmail(userChoose.email || "");
       setUserName(userChoose.username || "");
       setPhoneNumber(userChoose.phone || "");
-      setPassword(userChoose.password || "");
-      setDescription(userChoose.desciption || "");
+      setRole(userChoose?.role?.name || "");
     }
   }, [userChoose]);
   return (
@@ -45,9 +82,9 @@ const CreateForm:React.FC<CreateFormProps> = ({openForm,setOpenForm,content="ADD
           </button>
           <div className="flex flex-col gap-6">
             <h1 className="text-center text-black text-xl sm:text-2xl font-bold mb-4">
-              {content}
+              {content} {userChoose ? userChoose?.userId : "New"}
             </h1>
-            <form method="POST" className="space-y-4">
+            <div className="space-y-4">
               <InputTypeString
                 title="Full Name"
                 content={nameAccount}
@@ -73,19 +110,8 @@ const CreateForm:React.FC<CreateFormProps> = ({openForm,setOpenForm,content="ADD
                   setContent={setPhoneNumber}
                   placeholder="Nhập số điện thoại người dùng"
                 />
+                <InputTypeSelect title="Role" content={role} setContent={setRole} titleOption={option}></InputTypeSelect>
               </div>
-              <InputTypeString
-                title="Mật khẩu"
-                content={password}
-                setContent={setPassword}
-                placeholder="Nhập mật khẩu"
-              />
-              <InputDescription
-                title="Mô tả mong muốn nếu có"
-                content={description}
-                setContent={setDescription}
-                placeholder="Mô tả về bản thân"
-              />
               <div className="flex justify-end gap-4">
                 <button
                   type="button"
@@ -96,12 +122,13 @@ const CreateForm:React.FC<CreateFormProps> = ({openForm,setOpenForm,content="ADD
                 </button>
                 <button
                   type="submit"
+                  onClick={submitFormModal}
                   className="min-w-[90px] py-2 bg-[#FB9400] rounded-3xl font-bold text-white text-sm focus:outline-none hover:bg-[#E07B00]"
                 >
                   Add
                 </button>
               </div>
-            </form>
+            </div>
           </div>
         </div>
       </div>      

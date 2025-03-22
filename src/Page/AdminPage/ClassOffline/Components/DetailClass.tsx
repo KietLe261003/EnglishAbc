@@ -1,6 +1,9 @@
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
 import GeneralInformation from './GeneralInformation';
 import CalenderClass from './CalenderClass';
+import ListHomeWork from './ListHomeWork';
+import ListStudent from './ListStudent';
+import RollCall from './RollCall';
 
 function DetailClass() {
   
@@ -18,36 +21,29 @@ function DetailClass() {
         <Tab>Thông tin chung</Tab>
         <Tab>Lịch học</Tab>
         <Tab>Bài tập về nhà</Tab>
-        <Tab>Chấm bài</Tab>
         <Tab>Học viên</Tab>
-        <Tab>Giảng viên</Tab>
         <Tab>Điểm danh</Tab>
-        <Tab>Nhận xét</Tab>
       </TabList>
       <TabPanels>
         <TabPanel>
+          {/* Thông tin chung của lớp học */}
           <GeneralInformation></GeneralInformation>
         </TabPanel>
         <TabPanel>
+          {/* Lịch học và giáo viên dạy  */}
           <CalenderClass></CalenderClass>
         </TabPanel>
         <TabPanel>
-          <p>Bài tập về nhà</p>
+          {/* Bài tập về nhà và danh chấm bài */}
+          <ListHomeWork></ListHomeWork>
         </TabPanel>
         <TabPanel>
-          <p>Chấm bài</p>
+          {/* Danh sách học viên */}
+          <ListStudent/> 
         </TabPanel>
         <TabPanel>
-          <p>Học viên</p>
-        </TabPanel>
-        <TabPanel>
-          <p>Giảng viên</p>
-        </TabPanel>
-        <TabPanel>
-          <p>Điểm danh</p>
-        </TabPanel>
-        <TabPanel>
-          <p>Nhận xét</p>
+          {/* Điểm danh và nhận xét */}
+          <RollCall></RollCall>
         </TabPanel>
       </TabPanels>
     </Tabs>

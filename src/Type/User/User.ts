@@ -15,7 +15,7 @@ export interface responseLogin{
     result: AuthResponse,
 }
 export interface User {
-    id?: string,
+    userId?: string,
     fullname: string,
     username: string,
     email: string,
