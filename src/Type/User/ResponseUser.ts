@@ -1,3 +1,5 @@
+import { User } from "./User";
+
 interface Role {
     roleId: number;
     name: string;
@@ -33,7 +35,7 @@ interface Pageable {
 
 // Interface chính cho toàn bộ JSON
 export interface ResponseDataAllUser {
-    content: responseUser[];
+    content: User[];
     pageable: Pageable;
     totalPages: number;
     totalElements: number;
