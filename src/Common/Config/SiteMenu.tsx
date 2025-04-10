@@ -1,7 +1,7 @@
 import { RouterLink } from '../../Util/RouterLink';
 import { IconChat, IconSetting } from '../Icon/Icon';
 import {
-  IconBook,
+  // IconBook,
   IconDocument,
   IconHome,
   IconLeaf,
@@ -15,15 +15,15 @@ export const siteMenu = [
     icon: <IconHome />,
   },
   {
-    name: 'Tài liệu miễn phí',
+    name: 'Tài liệu ',
     href: RouterLink.DocumentFreePage,
     icon: <IconLeaf />,
   },
-  {
-    name: 'Tài liệu trả phí',
-    href: RouterLink.DocumentPayPage,
-    icon: <IconBook />,
-  },
+  // {
+  //   name: 'Tài liệu trả phí',
+  //   href: RouterLink.DocumentPayPage,
+  //   icon: <IconBook />,
+  // },
   {
     name: 'Khóa học',
     href: RouterLink.CourseOffline,

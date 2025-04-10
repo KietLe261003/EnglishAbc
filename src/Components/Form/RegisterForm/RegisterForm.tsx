@@ -210,7 +210,7 @@ const RegisterForm:React.FC<RegisterFormProps> = ({setInfoUser}) => {
                     onClick={Register}  
                   >
                     <div className='flex justify-center items-center'>
-                      <div className='mt-1'>Đăng ký</div>
+                      <div className='mt-1'>Đăng ký</div> 
                       <IconArrowRight/>
                     </div>
                   </Button>
